@@ -1,0 +1,58 @@
+.whatwedo{
+  margin-top: 80px;
+  font-size: 52px;
+  text-align: center;
+  color: #3B38F1;
+  font-family: apercu;
+  font-weight: 500;
+}
+
+.container{
+  width: 60%;
+  display: flex;
+  margin: auto;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-flow: wrap;
+}
+
+.child{
+  padding: 20px;
+  width: 50%;
+  align-items: center;
+}
+
+
+.btn{
+  margin: auto;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  font-family: apercu;
+  font-weight: 500;
+}
+
+.childbtn{
+  margin: auto;
+  font-family: apercu;
+  font-weight: 500;
+}
+
+@media screen and (max-width: 768px) {
+  .container{
+    width: 100%;
+  }
+  .whatwedo{
+    font-size: 36px;
+  }
+  .child {
+    width: 100%;
+    flex-basis: 100%;
+    padding: 20px;
+    text-align: center;
+  }
+  .btn{
+    padding: 40px;
+  }
+}
