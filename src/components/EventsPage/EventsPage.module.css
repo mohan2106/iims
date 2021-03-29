@@ -1,0 +1,52 @@
+.container{
+    width: 100%;
+    margin: 0;
+    padding: 40px;
+    font-family: apercu;
+    font-weight: 500;
+}
+
+.container h1{
+    text-align: center;
+    font-size: 54px;
+    color: #3B38F1;
+}
+.eventlist{
+    width: 60%;
+    margin: 40px auto;
+}
+
+.single{
+    background: #3B38F1;
+    border-radius: 16px;
+    padding: 40px;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: row;
+    justify-items: space-around;
+}
+
+.single:hover{
+    box-shadow: 0 30px 30px rgba(0, 0, 0, 0.2);
+}
+
+.item1{
+    width: 200px;
+    height: 200px;
+    flex: 1;
+}
+
+.item2{
+    flex: 2;
+    padding-left: 40px;
+    color: white;
+}
+
+.item2 h2{
+    font-size: 32px;
+}
+
+.item2{
+    font-size: 20px;
+    margin-top: 10px;
+}

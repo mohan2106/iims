@@ -4,6 +4,7 @@ import Navbar from './Navbar/Navbar';
 import Login from './Authentication/LoginPage';
 import Home from './HomePage/Home';
 import Footer from './Footer/Footer';
+import Event from './EventsPage/EventsPage';
 
 function App() {
   return (
@@ -21,9 +22,7 @@ function App() {
    
   );
 }
-const Event = () => {
-  return <h1>Event Page</h1>
-}
+
 const ScoreBoard = () => {
   return <h1>Score Board Page</h1>
 }
