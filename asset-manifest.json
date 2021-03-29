@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/iims/static/css/main.8728f3a8.chunk.css",
+    "main.js": "/iims/static/js/main.096ddf5d.chunk.js",
+    "main.js.map": "/iims/static/js/main.096ddf5d.chunk.js.map",
+    "runtime-main.js": "/iims/static/js/runtime-main.27cf9a45.js",
+    "runtime-main.js.map": "/iims/static/js/runtime-main.27cf9a45.js.map",
+    "static/js/2.ce50b001.chunk.js": "/iims/static/js/2.ce50b001.chunk.js",
+    "static/js/2.ce50b001.chunk.js.map": "/iims/static/js/2.ce50b001.chunk.js.map",
+    "index.html": "/iims/index.html",
+    "static/css/main.8728f3a8.chunk.css.map": "/iims/static/css/main.8728f3a8.chunk.css.map",
+    "static/js/2.ce50b001.chunk.js.LICENSE.txt": "/iims/static/js/2.ce50b001.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/iims/static/media/SpaceGroteskRegular.0af8901c.ttf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.27cf9a45.js",
+    "static/js/2.ce50b001.chunk.js",
+    "static/css/main.8728f3a8.chunk.css",
+    "static/js/main.096ddf5d.chunk.js"
+  ]
+}
