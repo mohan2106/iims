@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/iims/static/css/main.b79842cb.chunk.css",
+    "main.css": "/iims/static/css/main.ff1fca7d.chunk.css",
     "main.js": "/iims/static/js/main.4b8d0934.chunk.js",
     "main.js.map": "/iims/static/js/main.4b8d0934.chunk.js.map",
     "runtime-main.js": "/iims/static/js/runtime-main.27cf9a45.js",
@@ -8,14 +8,14 @@
     "static/js/2.5b11f7b8.chunk.js": "/iims/static/js/2.5b11f7b8.chunk.js",
     "static/js/2.5b11f7b8.chunk.js.map": "/iims/static/js/2.5b11f7b8.chunk.js.map",
     "index.html": "/iims/index.html",
-    "static/css/main.b79842cb.chunk.css.map": "/iims/static/css/main.b79842cb.chunk.css.map",
+    "static/css/main.ff1fca7d.chunk.css.map": "/iims/static/css/main.ff1fca7d.chunk.css.map",
     "static/js/2.5b11f7b8.chunk.js.LICENSE.txt": "/iims/static/js/2.5b11f7b8.chunk.js.LICENSE.txt",
     "static/media/index.css": "/iims/static/media/SpaceGroteskRegular.0af8901c.ttf"
   },
   "entrypoints": [
     "static/js/runtime-main.27cf9a45.js",
     "static/js/2.5b11f7b8.chunk.js",
-    "static/css/main.b79842cb.chunk.css",
+    "static/css/main.ff1fca7d.chunk.css",
     "static/js/main.4b8d0934.chunk.js"
   ]
 }
