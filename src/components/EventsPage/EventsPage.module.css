@@ -50,3 +50,31 @@
     font-size: 20px;
     margin-top: 10px;
 }
+
+@media screen and (max-width: 1300px){
+    .eventlist{
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 768px){
+    .container{
+        padding: 40px 0;
+    }
+    .eventlist{
+        width: 90%;
+    }
+    .single{
+        flex-direction: column;
+        justify-content: center;
+    }
+    .item1{
+        text-align: center;
+        margin: auto;
+    }
+    .item2{
+        padding-left: 0px;
+        text-align: center;
+        margin-top: 20px;
+    }
+}

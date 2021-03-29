@@ -54,3 +54,21 @@
     padding: 20px;
     cursor: pointer;
   }
+
+@media screen and (max-width: 900px){
+    .container{
+        margin: 40px 0;
+    }
+
+    .menu_item {
+        padding: 20px;
+      }
+      .menu_item img{
+          width: 100px;
+          height: 100px;
+      }
+      .menu_item p{
+          text-align: center;
+          font-size: 16px;
+      }
+}
