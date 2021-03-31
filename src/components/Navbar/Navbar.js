@@ -30,7 +30,7 @@ function Navbar() {
         <IconContext.Provider value={{color:'#6B25D0'}}>
             <div className={classes.navbar}>
                 <div className={`${classes.navbar_container} ${classes.container}`}>
-                    <Link to='/coding_cable' className={classes.navbar_logo} onClick={closeMobileMenu}>
+                    <Link to='/' className={classes.navbar_logo} onClick={closeMobileMenu}>
                         {/* <MdFingerprint className='navbar-icon'/> */}
                         {/* <img src={process.env.PUBLIC_URL + '/Images/logo.svg'} className={classes.navbar_icon} alt="logo" /> */}
                         IIMS
