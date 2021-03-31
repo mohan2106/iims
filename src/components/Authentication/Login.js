@@ -57,7 +57,7 @@ const Login = (props) => {
         <div className={classes.container}>
             <div className={classes.heading}>
                 <h2>Sign In</h2>
-                <h4>Welcome Back Coder. SignIn and resume your learning.</h4>
+                <h4>Welcome Back. SignIn and resume.</h4>
             </div>
             <form action='#' id='js-form' className={classes.form}>
                 <div className={classes.form_group}>
@@ -73,7 +73,7 @@ const Login = (props) => {
                     value={password} onChange={(e) => updatePassword(e.target.value)} placeholder='Password'/>
                 </div>
                 <div className='form-controls'>
-                    <button className={classes.btn} type='submit' disabled={!formValid}>Book Trial Class</button>
+                    <button className={classes.btn} type='submit' disabled={!formValid}>Sign IN</button>
                 </div>
             </form>
                 

@@ -127,21 +127,30 @@ const SignUp = (props) => {
                     <input type='text' id='username' name='username' className={classes.form_field}
                     value={name} onChange={(e) => updateName(e.target.value)} placeholder='Enter student name'/>
                 </div>
+
                 <div className={classes.form_group}>
                     <label className={classes.label} htmlFor='email'>Email</label>
                     < ValidationMessage valid={emailValid} message={errorMessage.email} />
                     <input type='email' id='email' name='email' className={classes.form_field}
                     value={email} onChange={(e) => updateEmail(e.target.value)} placeholder='Enter email'/>
                 </div>
+
+                <div className={classes.form_group}>
+                    <label className={classes.label} htmlFor='CollageName'>Collage Name</label>
+                    < ValidationMessage valid={nameValid} message={errorMessage.name} />
+                    <input type='text' id='CollageName' name='CollageName' className={classes.form_field}
+                    value={name} onChange={(e) => updateName(e.target.value)} placeholder='Enter student name'/>
+                </div>
+
                 <div className={classes.phoneclass}>
                     <div className={classes.form_group1}>
-                        <label className={classes.label} htmlFor='phone'>Phone</label>
+                        <label className={classes.label} htmlFor='phone'>Roll Number</label>
                         < ValidationMessage valid={phoneValid} message={errorMessage.phone} />
                         <input type='phone' id='phone' name='phone' className={classes.form_field} 
                         value={phone} onChange={(e) => updatePhone(e.target.value)} placeholder='Enter Phone Number'/>
                     </div>
                     <div className={classes.form_group2}>
-                        <label className={classes.label} htmlFor='standard'>Class</label>
+                        <label className={classes.label} htmlFor='standard'>year</label>
                         < ValidationMessage valid={standardValid} message={errorMessage.standard}/>
                         <input type='text' id='standard' name='standard' className={classes.form_field}
                         value={standard} onChange={(e) => updateStandard(e.target.value)} placeholder='class'/>
@@ -160,7 +169,7 @@ const SignUp = (props) => {
                     value={cnfpassword} onChange={(e) => updateCnfPassword(e.target.value)} placeholder='Confirm Password'/>
                 </div>
                 <div className='form-controls'>
-                    <button className={classes.btn} type='submit' disabled={!formValid}>Book Trial Class</button>
+                    <button className={classes.btn} type='submit' disabled={!formValid}>Register</button>
                 </div>
             </form>
                 
