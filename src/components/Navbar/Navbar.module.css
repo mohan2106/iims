@@ -51,7 +51,7 @@
     justify-content: center;
     list-style: none;
     text-align: center;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .nav_item {
