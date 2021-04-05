@@ -4,17 +4,12 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var cors = require("cors");
-const admin = require("firebase-admin");
-const serviceAccount = require("./serviceAccountKey.json");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var testAPIRouter = require("./routes/testAPI");
 
 var app = express();
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-});
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Component, useState } from "react";
 import classes from "./AskQuery.module.css";
 
 function ValidationMessage(props) {
@@ -12,147 +12,258 @@ function ValidationMessage(props) {
     return null;
 }
 
-const BookTrial = (props) => {
-    const kidlogo = process.env.PUBLIC_URL + "/images/query.svg";
-    const [name, setname] = useState("");
-    const [nameValid, setNameValid] = useState(false);
-    const [email, setemail] = useState("");
-    const [emailValid, setEmailValid] = useState(false);
-    const [standard, setstandard] = useState("");
-    const [standardValid, setStandardValid] = useState(false);
-    const [phone, setphone] = useState("");
-    const [phoneValid, setPhoneValid] = useState(false);
-    const [formValid, setFormValid] = useState(false);
-    const [errorMessage, setErrorMessage] = useState({});
+class AskQuery extends Component {
+    constructor(props) {
+        super(props);
 
-    const validateForm = () => {
-        setFormValid(nameValid && emailValid && standardValid && phoneValid);
-    };
-    const updateName = (data) => {
-        let errorMsg = { ...errorMessage };
-        setname(data);
+        this.state = {
+            kidlogo: process.env.PUBLIC_URL + "/images/query.svg",
+            username: "",
+            usernameValid: false,
+            category: "",
+            categoryValid: false,
+            query: "",
+            queryValid: false,
+            formValid: false,
+            errorMessage: {
+                username: "",
+                category: "",
+                query: "",
+                form: "",
+            },
+        };
+    }
+
+    validateForm() {
+        if (
+            this.state.usernameValid === true &&
+            this.state.categoryValid === true &&
+            this.state.queryValid === true
+        ) {
+            this.setState({
+                formValid: true,
+            });
+        } else {
+            var errMsg = { ...this.state.errorMessage };
+            this.setState({
+                formValid: false,
+                errorMessage: errMsg,
+            });
+        }
+    }
+    updateUsername(data) {
+        var errorMsg = { ...this.state.errorMessage };
+        this.setState({
+            username: data,
+        });
         if (data.length > 0) {
-            setNameValid(true);
+            this.setState({
+                usernameValid: true,
+            });
         } else {
-            setNameValid(false);
-            errorMsg.name = "Name is required!";
-            setErrorMessage(errorMsg);
+            errorMsg.username = "Name is required!";
+            this.setState({
+                usernameValid: false,
+                errorMessage: errorMsg,
+            });
         }
-        validateForm();
-    };
+        this.validateForm();
+    }
 
-    const updateEmail = (data) => {
-        let errorMsg = { ...errorMessage };
-        setemail(data);
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            setEmailValid(false);
-            errorMsg.email = "Invalid email format";
-            setErrorMessage(errorMsg);
-        } else {
-            setEmailValid(true);
-        }
-        validateForm();
-    };
-
-    const updateStandard = (data) => {
-        let errorMsg = { ...errorMessage };
-        setstandard(data);
+    updateCategory(data) {
+        var errorMsg = { ...this.state.errorMessage };
+        this.setState({
+            category: data,
+        });
         if (data.length > 0) {
-            setStandardValid(true);
+            this.setState({
+                categoryValid: true,
+            });
         } else {
-            setStandardValid(false);
-            errorMsg.standard = "Class is required!";
-            setErrorMessage(errorMsg);
+            errorMsg.category = "Category is required!";
+            this.setState({
+                categoryValid: false,
+                errorMessage: errorMsg,
+            });
         }
-        validateForm();
-    };
+        this.validateForm();
+    }
 
-    const updatePhone = (data) => {
-        let errorMsg = { ...errorMessage };
-        setphone(data);
-        if (data.length === 10) {
-            setPhoneValid(true);
+    updateQuery(data) {
+        var errorMsg = { ...this.state.errorMessage };
+        this.setState({
+            query: data,
+        });
+        if (data.length > 0) {
+            this.setState({
+                queryValid: true,
+            });
         } else {
-            setPhoneValid(false);
-            errorMsg.phone = "10 digit phone number is required";
-            setErrorMessage(errorMsg);
+            errorMsg.query = "Query is required!";
+            this.setState({
+                queryValid: false,
+                errorMessage: errorMsg,
+            });
         }
-        validateForm();
-    };
+        this.validateForm();
+    }
 
-    return (
-        <div className={classes.main}>
-            <div
-                className={classes.container}
-                style={{
-                    backgroundImage: `url(${
-                        process.env.PUBLIC_URL + "/images/CurveBackground.svg"
-                    })`,
-                }}
-            >
-                <div className={classes.item1}>
-                    <h2>Ask Query</h2>
-                    <p>
-                        Do you have any question regarding any Events or
-                        anything to ask from the Event Manager?
-                    </p>
-                    <img src={kidlogo} alt="creative"></img>
-                </div>
-                <div className={classes.item2}>
-                    <form action="#" id="js-form" className={classes.form}>
-                        <div className={classes.form_group}>
-                            <label className={classes.label} htmlFor="username">
-                                Query
-                            </label>
+    handleSubmit(e) {
+        e.preventDefault();
+
+        console.log(this);
+        this.validateForm();
+        if (this.state.formValid === true) {
+            const url = "http://localhost:5000/testAPI";
+
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json",
+                },
+                body: JSON.stringify({
+                    username: this.state.username,
+                    category: this.state.category,
+                    query: this.state.query,
+                }),
+            }).then((result) => {
+                // alert(JSON.stringify(result));
+                this.setState({
+                    username: "",
+                    usernameValid: false,
+                    category: "",
+                    categoryValid: false,
+                    query: "",
+                    queryValid: false,
+                    formValid: false,
+                    errorMessage: {
+                        username: "",
+                        category: "",
+                        query: "",
+                        form: "",
+                    },
+                });
+            });
+        } else {
+        }
+    }
+
+    render() {
+        return (
+            <div className={classes.main}>
+                <div
+                    className={classes.container}
+                    style={{
+                        backgroundImage: `url(${
+                            process.env.PUBLIC_URL +
+                            "/images/CurveBackground.svg"
+                        })`,
+                    }}
+                >
+                    <div className={classes.item1}>
+                        <h2>Ask Query</h2>
+                        <p>
+                            Do you have any question regarding any Events or
+                            anything to ask from the Event Manager?
+                        </p>
+                        <img src={this.state.kidlogo} alt="creative"></img>
+                    </div>
+                    <div className={classes.item2}>
+                        <form
+                            action="#"
+                            id="js-form"
+                            className={classes.form}
+                            onSubmit={this.handleSubmit.bind(this)}
+                        >
                             <ValidationMessage
-                                valid={nameValid}
-                                message={errorMessage.name}
+                                valid={this.state.formValid}
+                                message={this.state.errorMessage.form}
                             />
-                            <textarea
-                                type="text"
-                                id="username"
-                                name="username"
-                                className={classes.form_field}
-                                value={name}
-                                onChange={(e) => updateName(e.target.value)}
-                                rows="5"
-                                column="10"
-                                placeholder="Enter your query here"
-                            />
-                        </div>
-                        {/* <div className={classes.form_group}>
-                            <label className={classes.label} htmlFor='email'>Email</label>
-                            < ValidationMessage valid={emailValid} message={errorMessage.email} />
-                            <input type='email' id='email' name='email' className={classes.form_field}
-                            value={email} onChange={(e) => updateEmail(e.target.value)} placeholder='Enter email'/>
-                        </div>
-                        <div className={classes.rollnoclass}>
-                            <div className={classes.form_group1}>
-                                <label className={classes.label} htmlFor='phone'>Phone</label>
-                                < ValidationMessage valid={phoneValid} message={errorMessage.phone} />
-                                <input type='phone' id='phone' name='phone' className={classes.form_field} 
-                                value={phone} onChange={(e) => updatePhone(e.target.value)} placeholder='Enter Phone Number'/>
+                            <div className={classes.form_group}>
+                                <label
+                                    className={classes.label}
+                                    htmlFor="username"
+                                >
+                                    Username
+                                </label>
+                                <ValidationMessage
+                                    valid={this.state.usernameValid}
+                                    message={this.state.errorMessage.username}
+                                />
+                                <input
+                                    type="text"
+                                    id="username"
+                                    name="username"
+                                    className={classes.form_field}
+                                    value={this.state.username}
+                                    onChange={(e) =>
+                                        this.updateUsername(e.target.value)
+                                    }
+                                    placeholder="Username"
+                                />
                             </div>
-                            <div className={classes.form_group2}>
-                                <label className={classes.label} htmlFor='standard'>Class</label>
-                                < ValidationMessage valid={standardValid} message={errorMessage.standard}/>
-                                <input type='text' id='standard' name='standard' className={classes.form_field}
-                                value={standard} onChange={(e) => updateStandard(e.target.value)} placeholder='class'/>
+                            <div className={classes.form_group}>
+                                <label
+                                    className={classes.label}
+                                    htmlFor="category"
+                                >
+                                    Query Category
+                                </label>
+                                <ValidationMessage
+                                    valid={this.state.categoryValid}
+                                    message={this.state.errorMessage.category}
+                                />
+                                <input
+                                    type="text"
+                                    id="category"
+                                    name="category"
+                                    className={classes.form_field}
+                                    value={this.state.category}
+                                    onChange={(e) =>
+                                        this.updateCategory(e.target.value)
+                                    }
+                                    placeholder="Query Category"
+                                />
                             </div>
-                        </div> */}
-                        <div className="form-controls">
-                            <button
-                                className={classes.btn}
-                                type="submit"
-                                disabled={!formValid}
-                            >
-                                Ask Query
-                            </button>
-                        </div>
-                    </form>
+                            <div className={classes.form_group}>
+                                <label
+                                    className={classes.label}
+                                    htmlFor="query"
+                                >
+                                    Query
+                                </label>
+                                <ValidationMessage
+                                    valid={this.state.queryValid}
+                                    message={this.state.errorMessage.query}
+                                />
+                                <textarea
+                                    type="text"
+                                    id="query"
+                                    name="query"
+                                    className={classes.form_text_field}
+                                    value={this.state.query}
+                                    onChange={(e) =>
+                                        this.updateQuery(e.target.value)
+                                    }
+                                    rows="5"
+                                    column="10"
+                                    placeholder="Enter your query here"
+                                />
+                            </div>
+                            <div className="form-controls">
+                                <button
+                                    className={classes.btn}
+                                    type="submit"
+                                    disabled={!this.state.formValid}
+                                >
+                                    Ask Query
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    );
-};
-export default BookTrial;
+        );
+    }
+}
+export default AskQuery;
