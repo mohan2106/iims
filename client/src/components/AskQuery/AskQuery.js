@@ -20,11 +20,20 @@ class AskQuery extends Component {
             kidlogo: process.env.PUBLIC_URL + "/images/query.svg",
             username: "",
             usernameValid: false,
-            category: "",
-            categoryValid: false,
+            categories: [
+                "Category 1",
+                "Category 2",
+                "Category 3",
+                "Category 4",
+                "Category 5",
+                "Category 6",
+            ],
+            category: "Category 1",
+            categoryValid: true,
             query: "",
             queryValid: false,
             formValid: false,
+            submitted: false,
             errorMessage: {
                 username: "",
                 category: "",
@@ -34,73 +43,80 @@ class AskQuery extends Component {
         };
     }
 
-    validateForm() {
+    async validateForm() {
         if (
             this.state.usernameValid === true &&
             this.state.categoryValid === true &&
             this.state.queryValid === true
         ) {
-            this.setState({
+            await this.setState({
                 formValid: true,
             });
         } else {
-            var errMsg = { ...this.state.errorMessage };
-            this.setState({
+            let errMsg = { ...this.state.errorMessage };
+            errMsg.form = "Form is invalid";
+            await this.setState({
                 formValid: false,
                 errorMessage: errMsg,
             });
         }
     }
-    updateUsername(data) {
-        var errorMsg = { ...this.state.errorMessage };
-        this.setState({
-            username: data,
-        });
+    async updateUsername(data) {
+        let errorMsg = { ...this.state.errorMessage };
         if (data.length > 0) {
-            this.setState({
+            await this.setState({
+                username: data,
                 usernameValid: true,
             });
         } else {
             errorMsg.username = "Name is required!";
-            this.setState({
+            await this.setState({
+                username: data,
                 usernameValid: false,
                 errorMessage: errorMsg,
             });
         }
-        this.validateForm();
+        await this.validateForm();
     }
 
-    updateCategory(data) {
-        var errorMsg = { ...this.state.errorMessage };
-        this.setState({
-            category: data,
+    getCategoryOptions() {
+        let options = [];
+        this.state.categories.forEach((category) => {
+            options.push(<option value={category}>{category}</option>);
         });
-        if (data.length > 0) {
-            this.setState({
+        return options;
+    }
+
+    async updateCategory(data) {
+        let errorMsg = { ...this.state.errorMessage };
+        console.log(data);
+        if (data.length > 0 && this.state.categories.includes(data) === true) {
+            await this.setState({
+                category: data,
                 categoryValid: true,
             });
         } else {
             errorMsg.category = "Category is required!";
-            this.setState({
+            await this.setState({
+                category: data,
                 categoryValid: false,
                 errorMessage: errorMsg,
             });
         }
-        this.validateForm();
+        await this.validateForm();
     }
 
-    updateQuery(data) {
-        var errorMsg = { ...this.state.errorMessage };
-        this.setState({
-            query: data,
-        });
+    async updateQuery(data) {
+        let errorMsg = { ...this.state.errorMessage };
         if (data.length > 0) {
-            this.setState({
+            await this.setState({
+                query: data,
                 queryValid: true,
             });
         } else {
             errorMsg.query = "Query is required!";
-            this.setState({
+            await this.setState({
+                query: data,
                 queryValid: false,
                 errorMessage: errorMsg,
             });
@@ -108,13 +124,15 @@ class AskQuery extends Component {
         this.validateForm();
     }
 
-    handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
+        await this.validateForm();
+        if (this.state.formValid === true && this.state.submitted === false) {
+            this.setState({
+                submitted: true,
+            });
 
-        console.log(this);
-        this.validateForm();
-        if (this.state.formValid === true) {
-            const url = "http://localhost:5000/testAPI";
+            const url = process.env.REACT_APP_API_ENDPOINT + "query/post";
 
             fetch(url, {
                 method: "POST",
@@ -126,16 +144,16 @@ class AskQuery extends Component {
                     category: this.state.category,
                     query: this.state.query,
                 }),
-            }).then((result) => {
-                // alert(JSON.stringify(result));
-                this.setState({
+            }).then(async () => {
+                await this.setState({
                     username: "",
                     usernameValid: false,
                     category: "",
-                    categoryValid: false,
+                    categoryValid: true,
                     query: "",
                     queryValid: false,
                     formValid: false,
+                    submitted: false,
                     errorMessage: {
                         username: "",
                         category: "",
@@ -145,6 +163,11 @@ class AskQuery extends Component {
                 });
             });
         } else {
+            let errMsg = { ...this.state.errorMessage };
+            errMsg.form = "Form is invalid";
+            await this.setState({
+                errorMessage: errMsg,
+            });
         }
     }
 
@@ -179,6 +202,7 @@ class AskQuery extends Component {
                                 valid={this.state.formValid}
                                 message={this.state.errorMessage.form}
                             />
+                            {/* Username */}
                             <div className={classes.form_group}>
                                 <label
                                     className={classes.label}
@@ -202,6 +226,7 @@ class AskQuery extends Component {
                                     placeholder="Username"
                                 />
                             </div>
+                            {/* Category */}
                             <div className={classes.form_group}>
                                 <label
                                     className={classes.label}
@@ -213,7 +238,18 @@ class AskQuery extends Component {
                                     valid={this.state.categoryValid}
                                     message={this.state.errorMessage.category}
                                 />
-                                <input
+                                <select
+                                    name="category"
+                                    id="category"
+                                    className={classes.form_field}
+                                    value={this.state.category}
+                                    onChange={(e) =>
+                                        this.updateCategory(e.target.value)
+                                    }
+                                >
+                                    {this.getCategoryOptions()}
+                                </select>
+                                {/* <input
                                     type="text"
                                     id="category"
                                     name="category"
@@ -223,8 +259,9 @@ class AskQuery extends Component {
                                         this.updateCategory(e.target.value)
                                     }
                                     placeholder="Query Category"
-                                />
+                                /> */}
                             </div>
+                            {/* Query */}
                             <div className={classes.form_group}>
                                 <label
                                     className={classes.label}
@@ -250,6 +287,7 @@ class AskQuery extends Component {
                                     placeholder="Enter your query here"
                                 />
                             </div>
+                            {/* Submit */}
                             <div className="form-controls">
                                 <button
                                     className={classes.btn}

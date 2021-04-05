@@ -26,7 +26,7 @@ class App extends Component {
     render() {
         return (
             <Router>
-                {/* <p>{this.state.apiResponse}</p> */}
+                <p>{this.state.apiResponse}</p>
                 <Navbar />
                 <Switch>
                     <Route path="/" exact component={Home} />
