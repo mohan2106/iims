@@ -132,7 +132,7 @@ class AskQuery extends Component {
                 submitted: true,
             });
 
-            const url = process.env.REACT_APP_API_ENDPOINT + "query/post";
+            const url = process.env.REACT_APP_API_ENDPOINT + "query/";
 
             fetch(url, {
                 method: "POST",
