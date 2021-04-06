@@ -282,8 +282,7 @@ class AskQuery extends Component {
                                     onChange={(e) =>
                                         this.updateQuery(e.target.value)
                                     }
-                                    rows="5"
-                                    column="10"
+                                    column="5"
                                     placeholder="Enter your query here"
                                 />
                             </div>

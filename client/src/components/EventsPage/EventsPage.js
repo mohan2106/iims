@@ -1,5 +1,7 @@
 import React from 'react';
 import classes from './EventsPage.module.css';
+import {Link} from 'react-router-dom';
+
 
 const Single = (props) => {
     return (
@@ -45,6 +47,12 @@ const EventsPage = (props)=>{
     return (
         <div className={classes.container}>
             <h1>Events</h1>
+            <div className={classes.add_event}>
+                <Link to="/addEvent">
+                    <button className={classes.add_event_btn}>Add Event</button>
+                </Link>
+            </div>
+           
             <div className={classes.eventlist}>
                 {list}
             </div>
