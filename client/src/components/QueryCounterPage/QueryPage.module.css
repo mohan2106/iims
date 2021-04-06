@@ -1,0 +1,52 @@
+.container{
+    font-family: apercu;
+    font-weight: 500;
+    margin: 0;
+    padding: 80px;
+}
+
+.queryTitle{
+    margin: auto;
+    text-align:center;
+    font-size: 48px;
+}
+
+.askQuery{
+    margin:40px auto;
+    width: 80%;
+}
+.ask_query_title{
+    font-size: 32px;
+}
+.ask_query_text_area{
+    width: 100%;
+    resize: none;
+    padding: 16px;
+    font-size: 24px;
+}
+.past_query{
+    text-align: center;
+}
+.see_past_query_btn{
+    margin:auto;
+    width: 200px;
+    padding: 5px 25px;
+    border-radius: 25px;
+    height: 50px;
+    cursor: pointer;
+}
+.see_past_query_btn:hover{
+    background-color:#3B38F1;
+    color: white;
+    border: none;
+}
+
+.faqcontainer{
+    align-content: center;
+    position: relative;
+}
+
+.container_fluid{
+    width: 60%;
+    margin: 100px auto 50px auto;
+}

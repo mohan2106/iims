@@ -1,0 +1,62 @@
+
+  /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+ 
+
+.accordion{
+    width: 100%;
+    padding: 16px;
+    border: 1px solid rgb(212, 211, 211);
+    cursor: pointer;
+    border-radius: 8px;
+    margin: 10px 0;
+    position: relative;
+    align-items: center;
+    display: flex;
+    transition: background-color 0.3s ease;
+}
+
+.accordion:hover,
+.active {
+  background-color: rgb(235, 232, 232);
+}
+
+.accordion .icon{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
+    top: 10px;
+    margin: auto;
+}
+.accordion__content {
+    background-color: white;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+.accordion h5{
+    flex: 1;
+    color: #3D3D5B;
+    font-family: apercu;
+    font-weight: 700;
+    font-size: 24px;
+}
+.panel{
+    padding:  0 15px;
+    border-left: 1px solid rgb(212, 211, 211);
+    margin-left: 25px;
+    font-family: apercu;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 25px;
+    text-align: justify;
+    overflow: hidden;
+    max-height: 200px;
+    transition: all .5s ease-in;
+}
+
+@media screen and (max-width: 768px) {
+  .accordion h5{
+    font-size: 24px;
+  }
+}
