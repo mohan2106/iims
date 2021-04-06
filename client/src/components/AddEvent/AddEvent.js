@@ -174,7 +174,7 @@ class AddEvent extends Component {
                     descValid : false,
                     formValid: false,
                     submitted: false,
-                    selectedValue = [],
+                    selectedValue : [],
                     errorMessage: {
                         username: "",
                         category: "",
