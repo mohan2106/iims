@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import classes from "./AskQuery.module.css";
 
 function ValidationMessage(props) {

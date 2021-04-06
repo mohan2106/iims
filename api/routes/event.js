@@ -19,13 +19,7 @@ router.get("/", async function (req, res) {
 router.post("/", async function (req, res) {
     const docRef = db.collection("event").doc();
     await docRef
-        .set({
-            name: req.body.name,
-            date: new Date(req.body.date),
-            venue: req.body.venue,
-            description: req.body.description,
-            colleges: req.body.colleges,
-        })
+        .set(req.body)
         .then(() => {
             res.send("Event Created Successfully");
         })

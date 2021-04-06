@@ -1,9 +1,7 @@
-import React,{Component} from 'react';
-import classes from './AddEvent.module.css';
-import DateTimePicker from 'react-datetime-picker';
-import { Multiselect } from 'multiselect-react-dropdown';
-
-
+import React, { Component } from "react";
+import classes from "./AddEvent.module.css";
+import DateTimePicker from "react-datetime-picker";
+import { Multiselect } from "multiselect-react-dropdown";
 
 class AddEvent extends Component {
     constructor(props) {
@@ -11,44 +9,46 @@ class AddEvent extends Component {
 
         this.state = {
             kidlogo: process.env.PUBLIC_URL + "/images/query.svg",
-            username: "",
-            usernameValid: false,
-            venue : "",
-            venueValid:false,
+            name: "",
+            nameValid: false,
+            venue: "",
+            venueValid: false,
             dateTime: new Date(),
-            desc : "",
-            descValid : false,
+            desc: "",
+            descValid: false,
             collegeOptions: [
-                {name: 'IIT Guwahati', id: 1},
-                {name: 'IIT Bombay', id: 2},
-                {name: 'IIT Delhi', id:3},
-                {name: 'IIT Madras', id:4},
-                {name: 'IIT Kanpur', id:5},
-                {name: 'IIT Kharagpur', id:6},
-                {name: 'IIT Roorkee', id:7},
-                {name: 'IIT Indore', id:8},
-                {name: 'IIT Hydrabad', id:9},
-                {name: 'IIT Patna', id:10},
-                {name: 'IIT Mandi', id:11},
+                { name: "IIT Guwahati", id: 1 },
+                { name: "IIT Bombay", id: 2 },
+                { name: "IIT Delhi", id: 3 },
+                { name: "IIT Madras", id: 4 },
+                { name: "IIT Kanpur", id: 5 },
+                { name: "IIT Kharagpur", id: 6 },
+                { name: "IIT Roorkee", id: 7 },
+                { name: "IIT Indore", id: 8 },
+                { name: "IIT Hydrabad", id: 9 },
+                { name: "IIT Patna", id: 10 },
+                { name: "IIT Mandi", id: 11 },
             ],
-            selectedValue:[],
+            selectedValue: [],
             formValid: false,
             submitted: false,
             errorMessage: {
-                username: "",
+                name: "",
                 category: "",
                 query: "",
                 form: "",
                 venue: "",
                 date: "",
-                desc : ""
+                desc: "",
             },
         };
     }
     async validateForm() {
         if (
-            this.state.usernameValid === true &&
-            this.state.venueValid && this.state.descValid && this.state.selectedValue.length > 0
+            this.state.nameValid === true &&
+            this.state.venueValid &&
+            this.state.descValid &&
+            this.state.selectedValue.length > 1
         ) {
             await this.setState({
                 formValid: true,
@@ -62,18 +62,18 @@ class AddEvent extends Component {
             });
         }
     }
-    async updateUsername(data) {
+    async updateName(data) {
         let errorMsg = { ...this.state.errorMessage };
         if (data.length > 0) {
             await this.setState({
-                username: data,
-                usernameValid: true,
+                name: data,
+                nameValid: true,
             });
         } else {
-            errorMsg.username = "Name is required!";
+            errorMsg.name = "Name is required!";
             await this.setState({
-                username: data,
-                usernameValid: false,
+                name: data,
+                nameValid: false,
                 errorMessage: errorMsg,
             });
         }
@@ -146,11 +146,16 @@ class AddEvent extends Component {
         e.preventDefault();
         await this.validateForm();
         if (this.state.formValid === true && this.state.submitted === false) {
+            let colleges = [];
+            console.log(this.state);
+            this.state.selectedValue.forEach((college) => {
+                colleges.push(college.name);
+            });
             this.setState({
                 submitted: true,
             });
 
-            const url = process.env.REACT_APP_API_ENDPOINT + "query/";
+            const url = process.env.REACT_APP_API_ENDPOINT + "event/";
 
             fetch(url, {
                 method: "POST",
@@ -158,25 +163,25 @@ class AddEvent extends Component {
                     "Content-type": "application/json",
                 },
                 body: JSON.stringify({
-                    username: this.state.username,
-                    venue : this.state.venue,
+                    name: this.state.name,
+                    venue: this.state.venue,
                     dateTime: this.state.dateTime,
                     desc: this.state.desc,
-                    participatingCollege : this.state.selectedValue
+                    participatingCollege: colleges,
                 }),
             }).then(async () => {
                 await this.setState({
-                    username: "",
-                    usernameValid: false,
-                    venue : "",
-                    venueValid:false,
-                    desc : "",
-                    descValid : false,
+                    name: "",
+                    nameValid: false,
+                    venue: "",
+                    venueValid: false,
+                    desc: "",
+                    descValid: false,
                     formValid: false,
                     submitted: false,
-                    selectedValue : [],
+                    selectedValue: [],
                     errorMessage: {
-                        username: "",
+                        name: "",
                         category: "",
                         query: "",
                         form: "",
@@ -191,150 +196,133 @@ class AddEvent extends Component {
             });
         }
     }
-    async onSelect(selectedList, selectedItem){
-        await this.setState({selectedValue:selectedList});
+    async onSelect(selectedList, selectedItem) {
+        await this.setState({ selectedValue: selectedList });
         console.log(this.state.selectedValue);
         this.validateForm();
     }
-    async onRemove(selectedList, removedItem){
-        await this.setState({selectedValue:selectedList});
+    async onRemove(selectedList, removedItem) {
+        await this.setState({ selectedValue: selectedList });
         console.log(this.state.selectedValue);
         this.validateForm();
     }
-    render(){
+    render() {
         return (
             <div className={classes.container}>
                 <h1 className={classes.title}>Add Events</h1>
                 <form
-                            action="#"
-                            id="js-form"
-                            className={classes.form}
-                            onSubmit={this.handleSubmit.bind(this)}
+                    action="#"
+                    id="js-form"
+                    className={classes.form}
+                    onSubmit={this.handleSubmit.bind(this)}
+                >
+                    <ValidationMessage
+                        valid={this.state.formValid}
+                        message={this.state.errorMessage.form}
+                    />
+                    {/* name */}
+                    <div className={classes.form_group}>
+                        <label className={classes.label} htmlFor="Name">
+                            Name Of Event
+                        </label>
+                        <ValidationMessage
+                            valid={this.state.nameValid}
+                            message={this.state.errorMessage.name}
+                        />
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            className={classes.form_field}
+                            value={this.state.name}
+                            onChange={(e) =>
+                                this.updateName(e.target.value)
+                            }
+                            placeholder="Input the Event Name"
+                        />
+                    </div>
+                    {/* venue */}
+                    <div className={classes.form_group}>
+                        <label className={classes.label} htmlFor="Venue">
+                            Venue Of Event
+                        </label>
+                        <ValidationMessage
+                            valid={this.state.venueValid}
+                            message={this.state.errorMessage.venue}
+                        />
+                        <input
+                            type="text"
+                            id="venue"
+                            name="venue"
+                            className={classes.form_field}
+                            value={this.state.value}
+                            onChange={(e) => this.updateVenue(e.target.value)}
+                            placeholder="Input the Venue of Event"
+                        />
+                    </div>
+                    {/* Date and Time */}
+                    <div className={classes.form_group}>
+                        <label
+                            className={classes.label}
+                            htmlFor="Date and Time"
                         >
-                            <ValidationMessage
-                                valid={this.state.formValid}
-                                message={this.state.errorMessage.form}
-                            />
-                            {/* name */}
-                            <div className={classes.form_group}>
-                                <label
-                                    className={classes.label}
-                                    htmlFor="Name"
-                                >
-                                    Name Of Event
-                                </label>
-                                <ValidationMessage
-                                    valid={this.state.usernameValid}
-                                    message={this.state.errorMessage.username}
-                                />
-                                <input
-                                    type="text"
-                                    id="username"
-                                    name="username"
-                                    className={classes.form_field}
-                                    value={this.state.username}
-                                    onChange={(e) =>
-                                        this.updateUsername(e.target.value)
-                                    }
-                                    placeholder="Input the Event Name"
-                                />
-                            </div>
-                            <div className={classes.form_group}>
-                                <label
-                                    className={classes.label}
-                                    htmlFor="Venue"
-                                >
-                                    Venue Of Event
-                                </label>
-                                <ValidationMessage
-                                    valid={this.state.venueValid}
-                                    message={this.state.errorMessage.venue}
-                                />
-                                <input
-                                    type="text"
-                                    id="venue"
-                                    name="venue"
-                                    className={classes.form_field}
-                                    value={this.state.value}
-                                    onChange={(e) =>
-                                        this.updateVenue(e.target.value)
-                                    }
-                                    placeholder="Input the Venue of Event"
-                                />
-                            </div>
-                            <div className={classes.form_group}>
-                                <label
-                                    className={classes.label}
-                                    htmlFor="Date and Time"
-                                >
-                                    Date and Time
-                                </label>
-                                <ValidationMessage
-                                    valid={this.state.dateTimeValid}
-                                    message={this.state.errorMessage.date}
-                                />
-                                <DateTimePicker
-                                    onChange={(e)=>this.setState({dateTime:e})} 
-                                    value={this.state.dateTime}
-                                />
-                            </div>
-                            {/* Description */}
-                            <div className={classes.form_group}>
-                                <label
-                                    className={classes.label}
-                                    htmlFor="Venue"
-                                >
-                                    Event Description
-                                </label>
-                                <ValidationMessage
-                                    valid={this.state.descValid}
-                                    message={this.state.errorMessage.desc}
-                                />
-                                <input
-                                    type="text"
-                                    id="desc"
-                                    name="desc"
-                                    className={classes.form_field}
-                                    value={this.state.desc}
-                                    onChange={(e) =>
-                                        this.updateDesc(e.target.value)
-                                    }
-                                    placeholder="Input the Venue of Event"
-                                />
-                            </div>
-                            {/* Participating College */}
-                            <div className={classes.form_group}>
-                                <label
-                                    className={classes.label}
-                                    htmlFor="Venue"
-                                >
-                                    Select Participating College
-                                </label>
-                                <Multiselect
-                                options={this.state.collegeOptions} // Options to display in the dropdown
-                                selectedValues={this.state.selectedValue} // Preselected value to persist in dropdown
-                                onSelect={(a,b) => this.onSelect(a,b)} // Function will trigger on select event
-                                onRemove={(a,b) => this.onRemove(a,b)} // Function will trigger on remove event
-                                displayValue="name" // Property name to display in the dropdown options
-                                />
-                            </div>
-                            
-                            {/* Submit */}
-                            <div className="form-controls">
-                                <button
-                                    className={classes.btn}
-                                    type="submit"
-                                    disabled={!this.state.formValid}
-                                >
-                                    Add Event
-                                </button>
-                            </div>
-                        </form>
+                            Date and Time
+                        </label>
+                        <ValidationMessage
+                            valid={this.state.dateTimeValid}
+                            message={this.state.errorMessage.date}
+                        />
+                        <DateTimePicker
+                            onChange={(e) => this.setState({ dateTime: e })}
+                            value={this.state.dateTime}
+                        />
+                    </div>
+                    {/* Description */}
+                    <div className={classes.form_group}>
+                        <label className={classes.label} htmlFor="Venue">
+                            Event Description
+                        </label>
+                        <ValidationMessage
+                            valid={this.state.descValid}
+                            message={this.state.errorMessage.desc}
+                        />
+                        <input
+                            type="text"
+                            id="desc"
+                            name="desc"
+                            className={classes.form_field}
+                            value={this.state.desc}
+                            onChange={(e) => this.updateDesc(e.target.value)}
+                            placeholder="Input the Venue of Event"
+                        />
+                    </div>
+                    {/* Participating College */}
+                    <div className={classes.form_group}>
+                        <label className={classes.label} htmlFor="Venue">
+                            Select Participating College
+                        </label>
+                        <Multiselect
+                            options={this.state.collegeOptions} // Options to display in the dropdown
+                            selectedValues={this.state.selectedValue} // Preselected value to persist in dropdown
+                            onSelect={(a, b) => this.onSelect(a, b)} // Function will trigger on select event
+                            onRemove={(a, b) => this.onRemove(a, b)} // Function will trigger on remove event
+                            displayValue="name" // Property name to display in the dropdown options
+                        />
+                    </div>
+                    {/* Submit */}
+                    <div className="form-controls">
+                        <button
+                            className={classes.btn}
+                            type="submit"
+                            disabled={!this.state.formValid}
+                        >
+                            Add Event
+                        </button>
+                    </div>
+                </form>
             </div>
         );
-    };
-
-    
+    }
 }
 
 function ValidationMessage(props) {
@@ -348,6 +336,4 @@ function ValidationMessage(props) {
     return null;
 }
 
-
-
-export default AddEvent
+export default AddEvent;
