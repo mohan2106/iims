@@ -28,6 +28,7 @@ const faqs = [
 const QueryPage = (props) => {
     const [askquery,setAskQuery] = useState("");
     const [showPastQuery,setShowPastQuery] = useState(false);
+    const [btnText,setBtnText] = useState("Show Past Query");
     const handleChange = (data)=>{
         setAskQuery(data);
     }
@@ -38,6 +39,15 @@ const QueryPage = (props) => {
     const data = faqs.map(ele => {
         return <Single {...ele}/>;
     })
+
+    const updateBtn = () => {
+        if(!showPastQuery){
+            setBtnText("Close Past Query");
+        }else{
+            setBtnText("Show Past Query");
+        }
+        setShowPastQuery(!showPastQuery);
+    }
 
 
     return (
@@ -54,7 +64,7 @@ const QueryPage = (props) => {
                 </form>
             </div>
             <div className={classes.past_query}>
-                <button className={classes.see_past_query_btn} onClick={(event) => setShowPastQuery(!showPastQuery)}>See Past Query?</button>
+    <button className={classes.see_past_query_btn} onClick={(event) => updateBtn()}>{btnText}</button>
                 {showPastQuery ? 
                 <div className={classes.faqcontainer}>
                     <div className={classes.container_fluid}>
