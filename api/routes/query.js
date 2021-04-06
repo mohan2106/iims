@@ -2,6 +2,46 @@ var express = require("express");
 var router = express.Router();
 const { db } = require("../firebase");
 
+router.get("/", async function (req, res) {
+    const queryRef = db.collection("query");
+    let snapshot;
+    if (
+        req.query.category === undefined ||
+        req.query.category.toLowerCase() === "all"
+    ) {
+        snapshot = await queryRef.get();
+    } else {
+        snapshot = await queryRef
+            .where("category", "==", req.query.category)
+            .get();
+    }
+    let queries = [];
+    if (!snapshot.empty) {
+        snapshot.forEach((doc) => {
+            const data = doc.data();
+            data.id = doc.id;
+            console.log(data.id);
+            if (req.query.type !== undefined) {
+                if (req.query.type.toLowerCase() === "answered") {
+                    if (data.answer !== undefined && data.answer.length > 0) {
+                        queries.push(data);
+                    }
+                } else if (req.query.type.toLowerCase() === "unanswered") {
+                    if (data.answer === undefined || data.answer.length === 0) {
+                        queries.push(data);
+                    }
+                } else {
+                    queries.push(data);
+                }
+            } else {
+                queries.push(data);
+            }
+        });
+    }
+    console.log(queries);
+    res.send(queries);
+});
+
 router.post("/", async function (req, res) {
     const docRef = db.collection("query").doc();
     console.log(req.url);
@@ -20,44 +60,7 @@ router.post("/", async function (req, res) {
         });
 });
 
-router.get("/", async function (req, res) {
-    const queryRef = db.collection("query");
-    let snapshot;
-    if (req.query.category === "All") {
-        snapshot = await queryRef.get();
-    } else {
-        snapshot = await queryRef
-            .where("category", "==", req.query.category)
-            .get();
-    }
-    let queries = [];
-    if (!snapshot.empty) {
-        snapshot.forEach((doc) => {
-            const data = doc.data();
-            data.id = doc.id;
-            console.log(data.id);
-            if (req.query.type !== undefined) {
-                if (req.query.type === "Answered") {
-                    if (data.answer !== undefined && data.answer.length > 0) {
-                        queries.push(data);
-                    }
-                } else if (req.query.type === "Unanswered") {
-                    if (data.answer === undefined || data.answer.length === 0) {
-                        queries.push(data);
-                    }
-                } else {
-                    queries.push(data);
-                }
-            } else {
-                queries.push(data);
-            }
-        });
-    }
-    console.log(queries);
-    res.send(queries);
-});
-
-router.get("/:queryID/answer", async function (req, res) {
+router.get("/:queryID", async function (req, res) {
     const document = await db
         .collection("query")
         .doc(req.params["queryID"])
