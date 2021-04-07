@@ -15,28 +15,7 @@ const Single = (props) => {
 };
 
 const EventsPage = (props) => {
-    const [eventlist, setEventlist] = useState([
-        {
-            img: process.env.PUBLIC_URL + "/images/atheletcs.svg",
-            name: "Atheletics",
-            desc: "Inter IIT Atheletic game",
-        },
-        {
-            img: process.env.PUBLIC_URL + "/images/football.svg",
-            name: "Football",
-            desc: "Inter IIT Football tournament",
-        },
-        {
-            img: process.env.PUBLIC_URL + "/images/movies.svg",
-            name: "Entertainment",
-            desc: "Inter IIT Fun and Entertainment Event",
-        },
-        {
-            img: process.env.PUBLIC_URL + "/images/techmeet.svg",
-            name: "Tech Meet",
-            desc: "Inter IIT Tech Meet",
-        },
-    ]);
+    const [eventlist, setEventlist] = useState([]);
 
     useEffect(() => {
         const url = process.env.REACT_APP_API_ENDPOINT + "event";

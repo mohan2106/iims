@@ -73,20 +73,7 @@ router.get("/scoreboard", async function (req, res) {
         });
     }
 
-    scoreboard.sort((a, b) => b.score - a.score);
-    scoreboard[0].rank = 1;
-    for (let i = 1; i < scoreboard.length; ++i) {
-        if (scoreboard[i].score < scoreboard[i - 1].score) {
-            scoreboard[i].rank = scoreboard[i - 1].rank + 1;
-        } else {
-            scoreboard[i].rank = scoreboard[i - 1].rank;
-        }
-    }
-
-    res.send({
-        eventname: "All Events",
-        scores: scoreboard,
-    });
+    res.send(scoreboard);
 });
 
 router.get("/:eventID", async function (req, res) {
@@ -144,19 +131,7 @@ router.get("/:eventID/scoreboard", async function (req, res) {
     } else {
         scoreboard = [];
     }
-    scoreboard.sort((a, b) => b.score - a.score);
-    scoreboard[0].rank = 1;
-    for (let i = 1; i < scoreboard.length; ++i) {
-        if (scoreboard[i].score < scoreboard[i - 1].score) {
-            scoreboard[i].rank = scoreboard[i - 1].rank + 1;
-        } else {
-            scoreboard[i].rank = scoreboard[i - 1].rank;
-        }
-    }
-    res.send({
-        eventname: eventName,
-        scores: scoreboard,
-    });
+    res.send(scoreboard);
 });
 
 router.patch("/:eventID/scoreboard", async function (req, res) {
