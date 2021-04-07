@@ -22,11 +22,11 @@ class App extends Component {
                     <Route path="/iims" exact component={Home} />
                     <Route path="/signin" exact component={Login} />
                     <Route path="/events" exact component={Event} />
+                    <Route path="/scoreboard/:eventid" exact component={ScoreBoard} />
                     <Route path="/scoreboard" exact component={ScoreBoard} />
                     <Route path="/query" exact component={QueryCounter} />
                     <Route path="/addEvent" exact component={AddEvent} />
                     <Route path="/eventDetails/:id" exact component={EventDetail} />
-                    <Route path="/scoreboard/:eventid" exact component={ScoreBoard} />
                 </Switch>
                 <Footer />
             </Router>

@@ -1,48 +1,68 @@
-import React from 'react';
-import classes from './EventsPage.module.css';
-import {Link} from 'react-router-dom';
-
+import React, { useState, useEffect } from "react";
+import classes from "./EventsPage.module.css";
+import { Link } from "react-router-dom";
 
 const Single = (props) => {
     return (
         <div className={classes.single}>
-            <img src={props.img} alt="event-logo" className={classes.item1}/>
+            <img src={props.img} alt="event-logo" className={classes.item1} />
             <div className={classes.item2}>
-                <h2>{props.title}</h2>
+                <h2>{props.name}</h2>
                 <p>{props.desc}</p>
             </div>
         </div>
     );
-}
+};
 
+const EventsPage = (props) => {
+    const [eventlist, setEventlist] = useState([
+        {
+            img: process.env.PUBLIC_URL + "/images/atheletcs.svg",
+            name: "Atheletics",
+            desc: "Inter IIT Atheletic game",
+        },
+        {
+            img: process.env.PUBLIC_URL + "/images/football.svg",
+            name: "Football",
+            desc: "Inter IIT Football tournament",
+        },
+        {
+            img: process.env.PUBLIC_URL + "/images/movies.svg",
+            name: "Entertainment",
+            desc: "Inter IIT Fun and Entertainment Event",
+        },
+        {
+            img: process.env.PUBLIC_URL + "/images/techmeet.svg",
+            name: "Tech Meet",
+            desc: "Inter IIT Tech Meet",
+        },
+    ]);
 
-const EventsPage = (props)=>{
-    const eventlist = [
-        {
-            img:process.env.PUBLIC_URL + '/images/atheletcs.svg',
-            title:'Atheletics',
-            desc:'Inter IIT Atheletic game'
-        },
-        {
-            img: process.env.PUBLIC_URL + '/images/football.svg',
-            title:'Football',
-            desc:'Inter IIT Football tournament'
-        },
-        {
-            img: process.env.PUBLIC_URL + '/images/movies.svg',
-            title:'Entertainment',
-            desc:'Inter IIT Fun and Entertainment Event'
-        },
-        {
-            img: process.env.PUBLIC_URL + '/images/techmeet.svg',
-            title:'Tech Meet',
-            desc:'Inter IIT Tech Meet'
-        },
-    ];
-    const list = eventlist.map(data => {
+    useEffect(() => {
+        const url = process.env.REACT_APP_API_ENDPOINT + "event";
+        fetch(url)
+            .then(async (res) => {
+                const eventlist = await res.json();
+                eventlist.forEach((event) => {
+                    event.img =
+                        process.env.PUBLIC_URL + "/images/atheletcs.svg";
+                    event.url = "/eventDetails/" + event.id;
+                });
+                setEventlist(eventlist);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
+    const list = eventlist.map((data) => {
         return (
-            <Link to="/eventDetails/id">
-                <Single img={data.img} title={data.title} desc={data.desc}></Single>
+            <Link to={data.url}>
+                <Single
+                    img={data.img}
+                    name={data.name}
+                    desc={data.desc}
+                ></Single>
             </Link>
         );
     });
@@ -54,12 +74,10 @@ const EventsPage = (props)=>{
                     <button className={classes.add_event_btn}>Add Event</button>
                 </Link>
             </div>
-           
-            <div className={classes.eventlist}>
-                {list}
-            </div>
+
+            <div className={classes.eventlist}>{list}</div>
         </div>
     );
-}
+};
 
 export default EventsPage;

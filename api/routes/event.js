@@ -54,8 +54,6 @@ router.get("/scoreboard", async function (req, res) {
             let data = doc.data();
             data.id = doc.id;
             data.scores.forEach((element) => {
-                console.log(scores);
-                console.log(element.college);
                 if (scores.hasOwnProperty(element.college)) {
                     scores[element.college] =
                         scores[element.college] + element.score;
@@ -65,6 +63,7 @@ router.get("/scoreboard", async function (req, res) {
             });
         });
     }
+    console.log(scores);
 
     let scoreboard = [];
     for (let [k, v] of Object.entries(scores)) {
@@ -74,7 +73,20 @@ router.get("/scoreboard", async function (req, res) {
         });
     }
 
-    res.send(scoreboard);
+    scoreboard.sort((a, b) => b.score - a.score);
+    scoreboard[0].rank = 1;
+    for (let i = 1; i < scoreboard.length; ++i) {
+        if (scoreboard[i].score < scoreboard[i - 1].score) {
+            scoreboard[i].rank = scoreboard[i - 1].rank + 1;
+        } else {
+            scoreboard[i].rank = scoreboard[i - 1].rank;
+        }
+    }
+
+    res.send({
+        eventname: "All Events",
+        scores: scoreboard,
+    });
 });
 
 router.get("/:eventID", async function (req, res) {
@@ -116,17 +128,36 @@ router.delete("/:eventID", async function (req, res) {
 });
 
 router.get("/:eventID/scoreboard", async function (req, res) {
-    const document = await db
+    const eventDoc = await db
+        .collection("event")
+        .doc(req.params["eventID"])
+        .get();
+    let eventName = eventDoc.data().name;
+
+    const scoreboardDoc = await db
         .collection("scoreboard")
         .doc(req.params["eventID"])
         .get();
-    let data = document.data();
-    if (data !== undefined) {
-        data.id = document.id;
+    let scoreboard = scoreboardDoc.data();
+    if (scoreboard !== undefined) {
+        scoreboard = scoreboard.scores;
     } else {
-        data = {};
+        scoreboard = [];
     }
-    res.send(data.scores);
+    console.log(scoreboard);
+    scoreboard.sort((a, b) => b.score - a.score);
+    scoreboard[0].rank = 1;
+    for (let i = 1; i < scoreboard.length; ++i) {
+        if (scoreboard[i].score < scoreboard[i - 1].score) {
+            scoreboard[i].rank = scoreboard[i - 1].rank + 1;
+        } else {
+            scoreboard[i].rank = scoreboard[i - 1].rank;
+        }
+    }
+    res.send({
+        eventname: eventName,
+        scores: scoreboard,
+    });
 });
 
 router.patch("/:eventID/scoreboard", async function (req, res) {
