@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './EventDetail.module.css';
 import {GoLocation} from 'react-icons/go';
+import {Link} from 'react-router-dom';
 
 const EventDetail = () => {
     // fetch event details of event id = id
@@ -25,7 +26,9 @@ const EventDetail = () => {
             <div className={classes.time_and_date}>{props.timeDate}</div>
             <div className={classes.participating_college}></div>
             <div className={classes.btns}>
-                <button className={classes.view_scoreboard}>View ScoreBoard</button>
+                <Link to='/scoreboard/eventid'>
+                    <button className={classes.view_scoreboard}>View ScoreBoard</button>
+                </Link>
                 <button className={classes.report}>Report Event</button>
             </div>
         </div>

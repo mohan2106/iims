@@ -9,6 +9,7 @@ import { Component } from "react";
 import AddEvent from './AddEvent/AddEvent';
 import QueryCounter from './QueryCounterPage/QueryPage';
 import EventDetail from './EventDetailPage/EventDetail';
+import ScoreBoard from './Scoreboard/Scoreboard';
 
 class App extends Component {
 
@@ -25,6 +26,7 @@ class App extends Component {
                     <Route path="/query" exact component={QueryCounter} />
                     <Route path="/addEvent" exact component={AddEvent} />
                     <Route path="/eventDetails/:id" exact component={EventDetail} />
+                    <Route path="/scoreboard/:eventid" exact component={ScoreBoard} />
                 </Switch>
                 <Footer />
             </Router>
@@ -32,8 +34,5 @@ class App extends Component {
     }
 }
 
-const ScoreBoard = () => {
-    return <h1>Score Board Page</h1>;
-};
 
 export default App;

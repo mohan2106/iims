@@ -1,0 +1,36 @@
+.container{
+    padding: 80px;
+    font-family: apercu;
+    font-weight: 500;
+}
+.eventname{
+    font-size: 54px;
+}
+
+.single{
+    display: flex;
+    flex-direction: row;
+
+}
+.single_item{
+    width: 32%;
+    padding: 5px;
+    border: 1px solid black;
+}
+.dark{
+    background-color:rgb(199, 196, 196);
+    font-size: 24px;
+    padding: 10px;
+}
+.update{
+    margin: 20px 0;
+    padding: 10px 25px;
+    cursor: pointer;
+    border: 1px solid black;
+    background: rgb(207, 206, 206);
+    border-radius: 25px;
+}
+.update:hover{
+    background: blue;
+    color: white;
+}
