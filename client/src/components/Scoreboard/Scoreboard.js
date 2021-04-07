@@ -25,20 +25,17 @@ const Scoreboard = (props) => {
         } else {
             url = url.concat("scoreboard");
         }
-        console.log(url);
         fetch(url)
             .then(async (res) => {
-                setState(await res.json());
+                const scoreboard = await res.json();
+                console.log(scoreboard);
+                setState(scoreboard);
             })
             .catch((err) => {});
     }, [props.match.params]);
 
-    const listData = state.scores.map((d, i) => {
-        const pass = {
-            ...d,
-            rank: i + 1,
-        };
-        return <Single {...pass} />;
+    const listData = state.scores.map((college) => {
+        return <Single {...college} />;
     });
     return (
         <div className={classes.container}>

@@ -144,7 +144,6 @@ router.get("/:eventID/scoreboard", async function (req, res) {
     } else {
         scoreboard = [];
     }
-    console.log(scoreboard);
     scoreboard.sort((a, b) => b.score - a.score);
     scoreboard[0].rank = 1;
     for (let i = 1; i < scoreboard.length; ++i) {

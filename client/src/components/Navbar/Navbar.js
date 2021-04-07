@@ -55,7 +55,7 @@ function Navbar() {
                         >
                             <li className={classes.nav_item}>
                                 <Link
-                                    to="home"
+                                    to="/"
                                     onClick={closeMobileMenu}
                                     className={classes.nav_links}
                                     smooth={true}

@@ -28,7 +28,10 @@ const EventDetail = (props) => {
         fetch(url)
             .then(async (res) => {
                 const eventDetails = await res.json();
-                console.log(eventDetails);
+                eventDetails["scoreboard url"] = "/scoreboard/";
+                eventDetails["scoreboard url"] = eventDetails[
+                    "scoreboard url"
+                ].concat(props.match.params.id);
                 setState(eventDetails);
             })
             .catch((err) => {
@@ -49,7 +52,7 @@ const EventDetail = (props) => {
                 {state.participatingCollege}
             </div>
             <div className={classes.btns}>
-                <Link to="/scoreboard/eventid">
+                <Link to={state["scoreboard url"]}>
                     <button className={classes.view_scoreboard}>
                         View ScoreBoard
                     </button>
