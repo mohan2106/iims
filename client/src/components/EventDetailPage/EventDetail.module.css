@@ -1,0 +1,48 @@
+.container{
+    padding: 80px;
+    font-family: apercu;
+    font-weight: 500;
+}
+.title{
+    font-size: 54px;
+}
+.desc{
+    font-size: 24px;
+}
+.venue{
+    margin-top: 20px;
+    font-size: 18px;
+}
+.time_and_date{
+    margin-top: 10px;
+}
+.participating_college{
+
+}
+.btns{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.view_scoreboard{
+    padding: 10px 25px;
+    margin: 20px 0;
+    cursor: pointer;
+    border-radius: 25px;
+    border: none;
+}
+.view_scoreboard:hover{
+    background: blue;
+    color: white;
+}
+.report{
+    padding: 10px 25px;
+    margin: 20px 0;
+    cursor: pointer;
+    border-radius: 25px;
+    border: none;
+}
+.report:hover{
+    background: blue;
+    color: white;
+}

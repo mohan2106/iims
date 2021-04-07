@@ -8,6 +8,7 @@ import Event from "./EventsPage/EventsPage";
 import { Component } from "react";
 import AddEvent from './AddEvent/AddEvent';
 import QueryCounter from './QueryCounterPage/QueryPage';
+import EventDetail from './EventDetailPage/EventDetail';
 
 class App extends Component {
 
@@ -23,6 +24,7 @@ class App extends Component {
                     <Route path="/scoreboard" exact component={ScoreBoard} />
                     <Route path="/query" exact component={QueryCounter} />
                     <Route path="/addEvent" exact component={AddEvent} />
+                    <Route path="/eventDetails/:id" exact component={EventDetail} />
                 </Switch>
                 <Footer />
             </Router>

@@ -41,7 +41,9 @@ const EventsPage = (props)=>{
     ];
     const list = eventlist.map(data => {
         return (
-            <Single img={data.img} title={data.title} desc={data.desc}></Single>
+            <Link to="/eventDetails/id">
+                <Single img={data.img} title={data.title} desc={data.desc}></Single>
+            </Link>
         );
     });
     return (
