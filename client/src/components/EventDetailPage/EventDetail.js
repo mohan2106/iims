@@ -1,10 +1,15 @@
-import React from 'react';
+import React,{useState} from 'react';
 import classes from './EventDetail.module.css';
 import {GoLocation} from 'react-icons/go';
 import {Link} from 'react-router-dom';
+import Scoreboard from '../Scoreboard/Scoreboard';
 
 const EventDetail = () => {
     // fetch event details of event id = id
+    const [viewScoreBoard,setView]=useState(false);
+    const updateView = ()=>{
+        setView(!viewScoreBoard);
+    }
     const props = {
         eventName:'Football Match',
         desc : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis deleniti at neque vero, adipisci autem ullam id dicta. Natus nisi omnis, deleniti iste eum fugit exercitationem expedita architecto, minima repellat nobis voluptatibus culpa earum eos, quos alias est! Voluptas praesentium non quos facere eos fugiat neque, dolores provident velit dolor!',
@@ -26,11 +31,13 @@ const EventDetail = () => {
             <div className={classes.time_and_date}>{props.timeDate}</div>
             <div className={classes.participating_college}></div>
             <div className={classes.btns}>
-                <Link to='/scoreboard/eventid'>
-                    <button className={classes.view_scoreboard}>View ScoreBoard</button>
-                </Link>
-                <button className={classes.report}>Report Event</button>
+                {/* <Link to='/scoreboard/eventid'> */}
+                <button onClick={updateView} className={classes.view_scoreboard}>View ScoreBoard</button>
+                {/* </Link> */}
+                <button className={classes.report} >Report Event</button>
             </div>
+            {viewScoreBoard ? 
+            <Scoreboard/>:null}
         </div>
     );
 }
