@@ -21,8 +21,6 @@
 .env.test.local
 .env.production.local
 serviceAccountKey.json
-.eslintcache
-./node_modules/.cache/.eslintcache
 
 npm-debug.log*
 yarn-debug.log*
