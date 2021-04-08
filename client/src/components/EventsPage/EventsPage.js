@@ -19,6 +19,7 @@ const EventsPage = (props) => {
 
     useEffect(() => {
         const url = process.env.REACT_APP_API_ENDPOINT + "event";
+        console.log(url);
         fetch(url)
             .then(async (res) => {
                 const eventlist = await res.json();

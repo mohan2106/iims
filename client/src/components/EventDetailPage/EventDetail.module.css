@@ -17,7 +17,19 @@
     margin-top: 10px;
 }
 .participating_college{
-
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+.single_college{
+    width: 200px;
+    border: 2px solid #3B38F1;
+    border-radius: 16px;
+    text-align: center;
+    padding: 10px 20px;
+    margin: 10px;
+    color: #3B38F1;
 }
 .btns{
     display: flex;
@@ -45,4 +57,115 @@
 .report:hover{
     background: blue;
     color: white;
+}
+/* ============================================POPUP Component================================= */
+.popup {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: rgba(0,0,0, 0.5);
+  }
+  .popup_inner {
+    position: absolute;
+    left: 25%;
+    right: 25%;
+    top: 25%;
+    bottom: auto;
+    margin: auto;
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+  }
+  .succes_image{
+      width: 200px;
+      height: 200px;
+      margin: 20px auto;
+  }
+
+  /* ========================POPUP FORM ==============================*/
+  .form {
+    width: 100%;
+    margin-right: 40px;
+}
+
+.error_msg {
+    color: rgb(250, 99, 99);
+    size: 14px;
+    text-align: end;
+    font-family: apercu;
+    font-weight: 500;
+}
+
+.form_field {
+    background: #3b38f1;
+    width: 100%;
+    height: 50px;
+    border: none;
+    margin: 10px 0;
+    color: white;
+    padding: 10px;
+    font-size: 20px;
+    font-family: apercu;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.form_text_field {
+    background: #3b38f1;
+    width: 100%;
+    height: 150px;
+    border: none;
+    margin: 10px 0;
+    color: white;
+    padding: 10px;
+    font-size: 20px;
+    font-family: apercu;
+    font-weight: 700;
+}
+.close{
+    width: 100%;
+    border-radius: 5px;
+    height: 48px;
+    background-color: red;
+    color: white;
+    border: 2px solid red;
+    font-family: apercu;
+    font-weight: 500;
+    font-size: 24px;
+}
+.close:hover{
+    background: white;
+    color: red;
+}
+
+.btn {
+    width: 100%;
+    height: 48px;
+    background: linear-gradient(90.0deg, #9850FF 0.61%, #3B38F1 93.64%);
+    color: white;
+    border-radius: 5px;
+    font-size: 24px;
+    border: none;
+    margin: 20px 0;
+    font-family: apercu;
+    font-weight: 500;
+}
+
+.btn:disabled:hover {
+    cursor: not-allowed;
+}
+
+.btn:hover {
+    cursor: pointer;
+    background: white;
+    color: #3b38f1;
+    border: 2px solid blue;
 }
