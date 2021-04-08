@@ -3,29 +3,30 @@ import classes from "./QueryPage.module.css";
 import { Button } from "../Button/Button";
 import Single from "./Single/Single";
 
-const faqs = [
+const faq = [
     {
-        ques: "Where is Dance competetion hosted?",
+        query: "Where is Dance competetion hosted?",
         answer:
             "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore cupiditate, quasi ex eum nihil rerum exercitationem nesciunt odio placeat veniam doloremque voluptatibus eveniet animi iusto voluptas illo velit, at eligendi?",
     },
     {
-        ques: "My friend is not from IIT, Can he participate in cricket match?",
+        query:
+            "My friend is not from IIT, Can he participate in cricket match?",
         answer:
             "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore cupiditate, quasi ex eum nihil rerum exercitationem nesciunt odio placeat veniam doloremque voluptatibus eveniet animi iusto voluptas illo velit, at eligendi?",
     },
     {
-        ques: "Can I get snacks in the event?",
+        query: "Can I get snacks in the event?",
         answer:
             "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore cupiditate, quasi ex eum nihil rerum exercitationem nesciunt odio placeat veniam doloremque voluptatibus eveniet animi iusto voluptas illo velit, at eligendi?",
     },
     {
-        ques: "Where to visit in case of medical emergency?",
+        query: "Where to visit in case of medical emergency?",
         answer:
             "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore cupiditate, quasi ex eum nihil rerum exercitationem nesciunt odio placeat veniam doloremque voluptatibus eveniet animi iusto voluptas illo velit, at eligendi?",
     },
     {
-        ques:
+        query:
             "I have registered for the event and will not be able to play due to some reason, what to do?",
         answer:
             "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore cupiditate, quasi ex eum nihil rerum exercitationem nesciunt odio placeat veniam doloremque voluptatibus eveniet animi iusto voluptas illo velit, at eligendi?",
@@ -48,14 +49,14 @@ class AskQuery extends Component {
             username: "",
             usernameValid: false,
             categories: [
-                "Category 1",
-                "Category 2",
-                "Category 3",
-                "Category 4",
-                "Category 5",
-                "Category 6",
+                "Events",
+                "Accomodation",
+                "Food",
+                "Safety Precautions",
+                "COVID Arrangements",
+                "Miscellaneous",
             ],
-            category: "Category 1",
+            category: "Miscellaneous",
             categoryValid: true,
             query: "",
             queryValid: false,
@@ -69,6 +70,7 @@ class AskQuery extends Component {
                 query: "",
                 form: "",
             },
+            queries: faq,
         };
     }
 
@@ -177,18 +179,23 @@ class AskQuery extends Component {
                 await this.setState({
                     username: "",
                     usernameValid: false,
-                    category: this.state.categories[0],
+                    category: this.state.categories[
+                        this.state.categories.length - 1
+                    ],
                     categoryValid: true,
                     query: "",
                     queryValid: false,
                     formValid: false,
                     submitted: false,
+                    showPastQuery: false,
+                    btnText: "Show Past Query",
                     errorMessage: {
                         username: "",
                         category: "",
                         query: "",
                         form: "",
                     },
+                    queries: faq,
                 });
             });
         } else {
@@ -206,6 +213,17 @@ class AskQuery extends Component {
                 btnText: "Close Past Query",
                 showPastQuery: !this.state.showPastQuery,
             });
+
+            const url = process.env.REACT_APP_API_ENDPOINT + "query";
+            fetch(url, {
+                method: "GET",
+            }).then(async (res) => {
+                console.log(res);
+                await this.setState({
+                    queries: await res.json(),
+                });
+                console.log(this.state.queries);
+            });
         } else {
             await this.setState({
                 btnText: "Show Past Query",
@@ -214,19 +232,13 @@ class AskQuery extends Component {
         }
     }
 
-    data = () => {
-        return faqs.map((ele) => {
-            return <Single {...ele} />;
-        });
-    };
-
     render() {
         return (
             <div className={classes.main}>
                 <div className={classes.container}>
                     <h1 className={classes.title}>Ask Query</h1>
                     <p className={classes.subtitle}>
-                        Do you have any question regarding any Events or
+                        Do you have any querytion regarding any Events or
                         anything to ask from the Event Manager?
                     </p>
                     <form
@@ -343,7 +355,9 @@ class AskQuery extends Component {
                     {this.state.showPastQuery ? (
                         <div className={classes.faqcontainer}>
                             <div className={classes.container_fluid}>
-                                {this.data()}
+                                {this.state.queries.map((ele) => {
+                                    return <Single {...ele} />;
+                                })}
                             </div>
                         </div>
                     ) : null}

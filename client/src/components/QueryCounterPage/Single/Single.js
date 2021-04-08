@@ -17,7 +17,7 @@ const Single = (props)=>{
         <IconContext.Provider value={{color:'black'}}>
             <div>
             <div className={classes.accordion} onClick={toggle}>
-                <h5>{props.ques}</h5>
+                <h5>{props.query}</h5>
                 { isOpen ? <FaChevronUp className={classes.icon}/> 
                 : <FaChevronDown className={classes.icon}/>
                 }
