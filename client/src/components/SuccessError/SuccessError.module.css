@@ -7,9 +7,9 @@
     right: 0;
     bottom: 0;
     margin: auto;
-    background-color: rgba(0,0,0, 0.5);
-  }
-  .popup_inner {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.popup_inner {
     position: absolute;
     left: 25%;
     right: 25%;
@@ -19,4 +19,47 @@
     background: white;
     border-radius: 16px;
     padding: 40px;
-  }
+}
+
+.popup_content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.success_image {
+    width: 200px;
+    height: 200px;
+    margin: 20px auto;
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-button {
+    color: red;
+    font-size: xx-large;
+    border: none;
+    display: inline-block;
+    margin: 8px 16px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    background-color: inherit;
+    text-align: center;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.close-button:hover {
+    background-color: gray;
+}
+
+.topright {
+    position: absolute;
+    right: 0;
+    top: 0;
+}

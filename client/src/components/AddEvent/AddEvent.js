@@ -3,6 +3,7 @@ import classes from "./AddEvent.module.css";
 import DateTimePicker from "react-datetime-picker";
 import { Multiselect } from "multiselect-react-dropdown";
 import { Button } from "../Button/Button";
+import SuccessError from "../SuccessError/SuccessError";
 
 class AddEvent extends Component {
     constructor(props) {
@@ -19,6 +20,9 @@ class AddEvent extends Component {
             shortDescValid: false,
             desc: "",
             descValid: false,
+            showPopup: false,
+            successErrorPopup: false,
+            successErrorMessage: "",
             collegeOptions: [
                 { name: "IIT Guwahati", id: 1 },
                 { name: "IIT Bombay", id: 2 },
@@ -168,6 +172,7 @@ class AddEvent extends Component {
     async handleSubmit(e) {
         e.preventDefault();
         await this.validateForm();
+        const popupDelay = 1 * 1000;
         if (this.state.formValid === true && this.state.submitted === false) {
             let colleges = [];
             console.log(this.state);
@@ -179,7 +184,6 @@ class AddEvent extends Component {
             });
 
             const url = process.env.REACT_APP_API_ENDPOINT + "event/";
-
             fetch(url, {
                 method: "POST",
                 headers: {
@@ -207,6 +211,9 @@ class AddEvent extends Component {
                     descValid: false,
                     formValid: false,
                     submitted: false,
+                    showPopup: true,
+                    successErrorPopup: true,
+                    successErrorMessage: "Event Created Successfully",
                     selectedValue: [],
                     errorMessage: {
                         name: "",
@@ -223,6 +230,9 @@ class AddEvent extends Component {
             errMsg.form = "Form is invalid";
             await this.setState({
                 errorMessage: errMsg,
+                showPopup: true,
+                successErrorPopup: false,
+                successErrorMessage: "Event could not be created",
             });
         }
     }
@@ -383,6 +393,20 @@ class AddEvent extends Component {
                         </Button>
                     </div>
                 </form>
+                {this.state.showPopup && (
+                    <div>
+                        <SuccessError
+                            show={true}
+                            success={this.state.successErrorPopup}
+                            message={this.state.successErrorMessage}
+                            closePopup={async () => {
+                                await this.setState({
+                                    showPopup: false,
+                                });
+                            }}
+                        />
+                    </div>
+                )}
             </div>
         );
     }

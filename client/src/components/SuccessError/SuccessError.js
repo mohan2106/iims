@@ -1,25 +1,57 @@
-import React,{useState,useEffect} from 'react';
-import classes from './SuccessError.module.css';
+import React, { Component } from "react";
+import classes from "./SuccessError.module.css";
 
-const SuccessError = (props) => {
-    const [show,setShow] = useState(false);
-    const [success,setSuccess] = useState(false);
-    useEffect(()=>{
+class SuccessError extends Component {
+    constructor(props) {
+        super(props);
 
-    })
-    return (
-        <div>
-            {props.show ? 
-                <div className={classes.popup}>
-                    <div className={classes.popup_inner}>
-                        
-                        <button className={classes.close} onClick={() => togglePopup(false)}>Don't Report</button>
+        this.state = {
+            shows: props.show,
+            successImage: process.env.PUBLIC_URL + "/images/success.png",
+            errorImage: process.env.PUBLIC_URL + "/images/cross.png",
+        };
+
+        console.log(props);
+    }
+
+    render() {
+        return (
+            <div>
+                {this.state.shows && (
+                    <div className={classes.popup}>
+                        <div className={classes.popup_inner}>
+                            <header>
+                                <div
+                                    onClick={this.props.closePopup}
+                                    className={`${classes["close-button"]} ${classes["topright"]}`}
+                                >
+                                    &times;
+                                </div>
+                            </header>
+                            <div className={classes.popup_content}>
+                                <div className={classes.success_image}>
+                                    {this.props.success ? (
+                                        <img
+                                            src={this.state.successImage}
+                                            alt="Success"
+                                        />
+                                    ) : (
+                                        <img
+                                            src={this.state.errorImage}
+                                            alt="Error"
+                                        />
+                                    )}
+                                </div>
+                                <div className={classes.message}>
+                                    {this.props.message}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div> : 
-            null}
-        </div>
-        
-    );
+                )}
+            </div>
+        );
+    }
 }
 
-export default SuccessError
+export default SuccessError;

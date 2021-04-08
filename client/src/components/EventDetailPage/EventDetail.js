@@ -14,7 +14,7 @@ function ValidationMessage(props) {
     return null;
 }
 
-class Report extends Component{
+class Report extends Component {
     constructor(props) {
         super(props);
 
@@ -38,7 +38,7 @@ class Report extends Component{
             let errMsg = { ...this.state.errorMessage };
             errMsg.form = "Report Message is required";
             await this.setState({
-                query:data,
+                query: data,
                 formValid: false,
                 errorMessage: errMsg,
             });
@@ -72,7 +72,6 @@ class Report extends Component{
                         form: "",
                     },
                 });
-                
             });
             this.props.showSuccessMessage(true);
         } else {
@@ -83,7 +82,7 @@ class Report extends Component{
             });
         }
     }
-    render(){
+    render() {
         return (
             <form
                 action="#"
@@ -94,13 +93,10 @@ class Report extends Component{
                 <ValidationMessage
                     valid={this.state.formValid}
                     message={this.state.errorMessage.form}
-                />                          
+                />
                 {/* Query */}
                 <div className={classes.form_group}>
-                    <label
-                        className={classes.label}
-                        htmlFor="query"
-                    >
+                    <label className={classes.label} htmlFor="query">
                         What to Report?
                     </label>
                     <textarea
@@ -109,9 +105,7 @@ class Report extends Component{
                         name="query"
                         className={classes.form_text_field}
                         value={this.state.query}
-                        onChange={(e) =>
-                            this.updateQuery(e.target.value)
-                        }
+                        onChange={(e) => this.updateQuery(e.target.value)}
                         rows="5"
                         placeholder="Enter your report message here"
                     />
@@ -134,14 +128,16 @@ class Report extends Component{
 const EventDetail = (props) => {
     // fetch event details of event id = id
     const [viewScoreBoard, setView] = useState(false);
-    const [showPopup,setShowPopup] = useState(false);
-    const [showSuccess,setShowSuccess] = useState(false);
-    const [successImage,setSuccessImage] = useState(process.env.PUBLIC_URL + '/images/sport.svg');
+    const [showPopup, setShowPopup] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [successImage, setSuccessImage] = useState(
+        process.env.PUBLIC_URL + "/images/sport.svg"
+    );
 
-    const togglePopup = (data)=>{
-        setShowPopup(data);     
-        setShowSuccess(false);   
-    }
+    const togglePopup = (data) => {
+        setShowPopup(data);
+        setShowSuccess(false);
+    };
     const updateView = () => {
         setView(!viewScoreBoard);
     };
@@ -155,12 +151,12 @@ const EventDetail = (props) => {
 
     const showSuccessMessage = (isSuccess) => {
         setShowSuccess(true);
-        if(isSuccess){
-            setSuccessImage(process.env.PUBLIC_URL + '/images/success.png');
-        }else{
-            setSuccessImage(process.env.PUBLIC_URL + '/images/cross.png');
+        if (isSuccess) {
+            setSuccessImage(process.env.PUBLIC_URL + "/images/success.png");
+        } else {
+            setSuccessImage(process.env.PUBLIC_URL + "/images/cross.png");
         }
-    }
+    };
 
     useEffect(() => {
         const url =
@@ -174,12 +170,14 @@ const EventDetail = (props) => {
                 eventDetails["scoreboard url"] = eventDetails[
                     "scoreboard url"
                 ].concat(props.match.params.id);
-                
-                const collegedata = eventDetails.participatingCollege.map(d => {
-                    return (
-                        <div className={classes.single_college}>{d}</div>
-                    );
-                });
+
+                const collegedata = eventDetails.participatingCollege.map(
+                    (d) => {
+                        return (
+                            <div className={classes.single_college}>{d}</div>
+                        );
+                    }
+                );
                 eventDetails.participatingCollege = collegedata;
                 setState(eventDetails);
             })
@@ -209,20 +207,34 @@ const EventDetail = (props) => {
                     View ScoreBoard
                 </button>
                 {/* </Link> */}
-                <button className={classes.report} onClick={() => togglePopup(true)}>Report Event</button>
-                {showPopup ?
-                <div className={classes.popup}>
-                    <div className={classes.popup_inner}>
-                    {/* <h1>{this.props.text}</h1> */}
-                    {showSuccess ? 
-                    <div className={classes.succes_image}>
-                        <img src={successImage} alt=""/>
-                    </div>:
-                    <Report showSuccessMessage={showSuccessMessage}/>}
-                    <button className={classes.close} onClick={() => togglePopup(false)}>Close</button>
+                <button
+                    className={classes.report}
+                    onClick={() => togglePopup(true)}
+                >
+                    Report Event
+                </button>
+                {showPopup ? (
+                    <div className={classes.popup}>
+                        <div className={classes.popup_inner}>
+                            {/* <h1>{this.props.text}</h1> */}
+                            {showSuccess ? (
+                                <div className={classes.succes_image}>
+                                    <img src={successImage} alt="" />
+                                </div>
+                            ) : (
+                                <Report
+                                    showSuccessMessage={showSuccessMessage}
+                                />
+                            )}
+                            <button
+                                className={classes.close}
+                                onClick={() => togglePopup(false)}
+                            >
+                                Close
+                            </button>
+                        </div>
                     </div>
-                </div> : null }
-                
+                ) : null}
             </div>
             {viewScoreBoard ? (
                 <Scoreboard eventid={props.match.params.id} />
