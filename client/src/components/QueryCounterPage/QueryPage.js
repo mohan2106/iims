@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import classes from "./QueryPage.module.css";
 import { Button } from "../Button/Button";
 import Single from "./Single/Single";
+import SuccessError from "../SuccessError/SuccessError";
 
 const faq = [
     {
@@ -64,6 +65,9 @@ class AskQuery extends Component {
             submitted: false,
             showPastQuery: false,
             btnText: "Show Past Query",
+            showPopup: false,
+            successErrorPopup: false,
+            successErrorMessage: "",
             errorMessage: {
                 username: "",
                 category: "",
@@ -189,6 +193,9 @@ class AskQuery extends Component {
                     submitted: false,
                     showPastQuery: false,
                     btnText: "Show Past Query",
+                    showPopup: true,
+                    successErrorPopup: true,
+                    successErrorMessage: "Query Posted Successfully",
                     errorMessage: {
                         username: "",
                         category: "",
@@ -203,6 +210,9 @@ class AskQuery extends Component {
             errMsg.form = "Form is invalid";
             await this.setState({
                 errorMessage: errMsg,
+                showPopup: true,
+                successErrorPopup: false,
+                successErrorMessage: "Query could not be posted",
             });
         }
     }
@@ -362,6 +372,20 @@ class AskQuery extends Component {
                         </div>
                     ) : null}
                 </div>
+                {this.state.showPopup && (
+                    <div>
+                        <SuccessError
+                            show={true}
+                            success={this.state.successErrorPopup}
+                            message={this.state.successErrorMessage}
+                            closePopup={async () => {
+                                await this.setState({
+                                    showPopup: false,
+                                });
+                            }}
+                        />
+                    </div>
+                )}
             </div>
         );
     }

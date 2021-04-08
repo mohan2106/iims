@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
 import classes from "./Scoreboard.module.css";
+import SuccessError from "../SuccessError/SuccessError";
 
 const Scoreboard = (props) => {
     const [updateScoreboard, setUpdateScoreboard] = useState(false);
     const [btnText, setBtnText] = useState("Update Scoreboard");
     const [collegeScore, setCollegeScore] = useState([]);
     const [sortedScoreboard, setSortedScoreboard] = useState([]);
+    const [popup, setPopup] = useState({
+        show: false,
+        SuccessError: false,
+        message: "",
+    });
 
     const showForm = () => {
         const data = sortedScoreboard
@@ -71,8 +77,18 @@ const Scoreboard = (props) => {
             })
                 .then(async (res) => {
                     console.log(res);
+                    setPopup({
+                        show: true,
+                        SuccessError: true,
+                        message: "Scoreboard updated successfully.",
+                    });
                 })
                 .catch(async (err) => {
+                    setPopup({
+                        show: true,
+                        SuccessError: false,
+                        message: "Scoreboard could not be updated.",
+                    });
                     console.log(err);
                 });
             showList();
@@ -191,6 +207,22 @@ const Scoreboard = (props) => {
                 </button>
             )}
             {/* </Link> */}
+            {popup.show && (
+                <div>
+                    <SuccessError
+                        show={true}
+                        success={popup.SuccessError}
+                        message={popup.message}
+                        closePopup={async () => {
+                            await setPopup({
+                                show: false,
+                                SuccessError: false,
+                                message: "",
+                            });
+                        }}
+                    />
+                </div>
+            )}
         </div>
     );
 };
