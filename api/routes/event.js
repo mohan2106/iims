@@ -46,24 +46,32 @@ router.post("/", async function (req, res) {
 });
 
 router.get("/scoreboard", async function (req, res) {
-    const scoreboardDoc = db.collection("scoreboard");
+    const scoreboardDoc = db.collection("event");
     const snapshot = await scoreboardDoc.get();
     let scores = {};
     if (!snapshot.empty) {
         snapshot.forEach((doc) => {
             let data = doc.data();
-            data.id = doc.id;
-            data.scores.forEach((element) => {
-                if (scores.hasOwnProperty(element.college)) {
-                    scores[element.college] =
-                        scores[element.college] + element.score;
+            console.log(data);
+            console.log(data.hasOwnProperty("scores"));
+            for (let i = 0; i < data.participatingCollege.length; ++i) {
+                if (scores.hasOwnProperty(data.participatingCollege[i])) {
+                    scores[data.participatingCollege[i]] =
+                        scores[data.participatingCollege[i]] +
+                        data.hasOwnProperty("scores")
+                            ? data.scores[i]
+                            : 0;
                 } else {
-                    scores[element.college] = element.score;
+                    scores[data.participatingCollege[i]] = data.hasOwnProperty(
+                        "scores"
+                    )
+                        ? data.scores[i]
+                        : 0;
                 }
-            });
+            }
+            console.log(scores);
         });
     }
-    console.log(scores);
 
     let scoreboard = [];
     for (let [k, v] of Object.entries(scores)) {
@@ -119,25 +127,27 @@ router.get("/:eventID/scoreboard", async function (req, res) {
         .collection("event")
         .doc(req.params["eventID"])
         .get();
-    let eventName = eventDoc.data().name;
-
-    const scoreboardDoc = await db
-        .collection("scoreboard")
-        .doc(req.params["eventID"])
-        .get();
-    let scoreboard = scoreboardDoc.data();
-    if (scoreboard !== undefined) {
-        scoreboard = scoreboard.scores;
-    } else {
-        scoreboard = [];
+    let data = eventDoc.data();
+    let scoreboard = [];
+    for (let i = 0; i < data.participatingCollege.length; ++i) {
+        scoreboard.push({
+            college: data.participatingCollege[i],
+            score: data.hasOwnProperty("scores") ? data.scores[i] : 0,
+        });
     }
     res.send(scoreboard);
 });
 
 router.patch("/:eventID/scoreboard", async function (req, res) {
-    const docRef = db.collection("scoreboard").doc(req.params["eventID"]);
+    const docRef = db.collection("event").doc(req.params["eventID"]);
+    const participatingCollege = req.body.participatingCollege;
+    const scores = req.body.scores;
+
     await docRef
-        .update(req.body)
+        .update({
+            participatingCollege: participatingCollege,
+            scores: scores,
+        })
         .then(() => {
             res.send("Scoreboard Updated Successfully");
         })
