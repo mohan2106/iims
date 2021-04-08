@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import classes from "./EventsPage.module.css";
 import { Link } from "react-router-dom";
+import { Button } from "../Button/Button";
 
 const Single = (props) => {
     return (
-        <div className={classes.single}>
+        <div className={classes["btn--rounded-dark"]}>
             <img src={props.img} alt="event-logo" className={classes.item1} />
             <div className={classes.item2}>
                 <h2>{props.name}</h2>
@@ -50,7 +51,7 @@ const EventsPage = (props) => {
             <h1>Events</h1>
             <div className={classes.add_event}>
                 <Link to="/addEvent">
-                    <button className={classes.add_event_btn}>Add Event</button>
+                    <Button buttonStyle="btn--rounded-dark">Add Event</Button>
                 </Link>
             </div>
 
