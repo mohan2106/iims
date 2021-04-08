@@ -1,13 +1,40 @@
 import React, { Component } from "react";
 import classes from "./AskQuery.module.css";
+import { Button } from "../Button/Button";
+import Single from "../QueryCounterPage/Single/Single";
+
+const faqs = [
+    {
+        ques: "Where is Dance competetion hosted?",
+        answer:
+            "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore cupiditate, quasi ex eum nihil rerum exercitationem nesciunt odio placeat veniam doloremque voluptatibus eveniet animi iusto voluptas illo velit, at eligendi?",
+    },
+    {
+        ques: "My friend is not from IIT, Can he participate in cricket match?",
+        answer:
+            "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore cupiditate, quasi ex eum nihil rerum exercitationem nesciunt odio placeat veniam doloremque voluptatibus eveniet animi iusto voluptas illo velit, at eligendi?",
+    },
+    {
+        ques: "Can I get snacks in the event?",
+        answer:
+            "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore cupiditate, quasi ex eum nihil rerum exercitationem nesciunt odio placeat veniam doloremque voluptatibus eveniet animi iusto voluptas illo velit, at eligendi?",
+    },
+    {
+        ques: "Where to visit in case of medical emergency?",
+        answer:
+            "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore cupiditate, quasi ex eum nihil rerum exercitationem nesciunt odio placeat veniam doloremque voluptatibus eveniet animi iusto voluptas illo velit, at eligendi?",
+    },
+    {
+        ques:
+            "I have registered for the event and will not be able to play due to some reason, what to do?",
+        answer:
+            "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore cupiditate, quasi ex eum nihil rerum exercitationem nesciunt odio placeat veniam doloremque voluptatibus eveniet animi iusto voluptas illo velit, at eligendi?",
+    },
+];
 
 function ValidationMessage(props) {
     if (!props.valid) {
-        return (
-            <div className={classes.error_msg}>
-                <p>{props.message}</p>
-            </div>
-        );
+        return <p className={classes.error_msg}>{props.message}</p>;
     }
     return null;
 }
@@ -34,6 +61,8 @@ class AskQuery extends Component {
             queryValid: false,
             formValid: false,
             submitted: false,
+            showPastQuery: false,
+            btnText: "Show Past Query",
             errorMessage: {
                 username: "",
                 category: "",
@@ -171,6 +200,26 @@ class AskQuery extends Component {
         }
     }
 
+    async updateBtn() {
+        if (!this.state.showPastQuery) {
+            await this.setState({
+                btnText: "Close Past Query",
+                showPastQuery: !this.state.showPastQuery,
+            });
+        } else {
+            await this.setState({
+                btnText: "Show Past Query",
+                showPastQuery: !this.state.showPastQuery,
+            });
+        }
+    }
+
+    data = () => {
+        return faqs.map((ele) => {
+            return <Single {...ele} />;
+        });
+    };
+
     render() {
         return (
             <div className={classes.main}>
@@ -204,16 +253,20 @@ class AskQuery extends Component {
                             />
                             {/* Username */}
                             <div className={classes.form_group}>
-                                <label
-                                    className={classes.label}
-                                    htmlFor="username"
-                                >
-                                    Username
-                                </label>
-                                <ValidationMessage
-                                    valid={this.state.usernameValid}
-                                    message={this.state.errorMessage.username}
-                                />
+                                <div className={classes.container_label}>
+                                    <label
+                                        className={classes.label}
+                                        htmlFor="username"
+                                    >
+                                        Username
+                                    </label>
+                                    <ValidationMessage
+                                        valid={this.state.usernameValid}
+                                        message={
+                                            this.state.errorMessage.username
+                                        }
+                                    />
+                                </div>
                                 <input
                                     type="text"
                                     id="username"
@@ -228,16 +281,20 @@ class AskQuery extends Component {
                             </div>
                             {/* Category */}
                             <div className={classes.form_group}>
-                                <label
-                                    className={classes.label}
-                                    htmlFor="category"
-                                >
-                                    Query Category
-                                </label>
-                                <ValidationMessage
-                                    valid={this.state.categoryValid}
-                                    message={this.state.errorMessage.category}
-                                />
+                                <div className={classes.container_label}>
+                                    <label
+                                        className={classes.label}
+                                        htmlFor="category"
+                                    >
+                                        Query Category
+                                    </label>
+                                    <ValidationMessage
+                                        valid={this.state.categoryValid}
+                                        message={
+                                            this.state.errorMessage.category
+                                        }
+                                    />
+                                </div>
                                 <select
                                     name="category"
                                     id="category"
@@ -249,30 +306,21 @@ class AskQuery extends Component {
                                 >
                                     {this.getCategoryOptions()}
                                 </select>
-                                {/* <input
-                                    type="text"
-                                    id="category"
-                                    name="category"
-                                    className={classes.form_field}
-                                    value={this.state.category}
-                                    onChange={(e) =>
-                                        this.updateCategory(e.target.value)
-                                    }
-                                    placeholder="Query Category"
-                                /> */}
                             </div>
                             {/* Query */}
                             <div className={classes.form_group}>
-                                <label
-                                    className={classes.label}
-                                    htmlFor="query"
-                                >
-                                    Query
-                                </label>
-                                <ValidationMessage
-                                    valid={this.state.queryValid}
-                                    message={this.state.errorMessage.query}
-                                />
+                                <div className={classes.container_label}>
+                                    <label
+                                        className={classes.label}
+                                        htmlFor="query"
+                                    >
+                                        Query
+                                    </label>
+                                    <ValidationMessage
+                                        valid={this.state.queryValid}
+                                        message={this.state.errorMessage.query}
+                                    />
+                                </div>
                                 <textarea
                                     type="text"
                                     id="query"

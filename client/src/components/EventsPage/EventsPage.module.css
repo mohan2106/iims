@@ -1,3 +1,6 @@
+:root {
+    --primary: #6b25d0;
+}
 .container {
     width: 100%;
     margin: 0;
@@ -52,11 +55,12 @@
     margin-top: 10px;
 }
 
-.add_event{
-    padding:40px;
+.add_event {
+    text-align: right;
+    padding: 40px;
     position: relative;
 }
-.add_event_btn{
+.add_event_btn {
     height: 54px;
     width: 300px;
     text-align: center;
@@ -73,7 +77,7 @@
     cursor: pointer;
 }
 
-.add_event_btn:hover{
+.add_event_btn:hover {
     background-color: #3b38f1;
     color: white;
     border: none;
@@ -105,4 +109,29 @@
         text-align: center;
         margin-top: 20px;
     }
+}
+
+.btn--rounded-dark {
+    background: linear-gradient(90deg, #9850ff 0.61%, #3b38f1 93.64%);
+    color: #fff;
+    transition: all 0.3s ease-out;
+    font-size: large;
+
+    border-radius: 16px;
+    padding: 40px;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: row;
+    justify-items: space-around;
+}
+.btn--rounded-dark:hover {
+    background: transparent;
+    color: var(--primary);
+    transition: all 0.3s ease-out;
+    border: 1px solid var(--primary);
+}
+
+.btn--rounded-dark:hover .item2 {
+    color: var(--primary);
+    transition: all 0.3s ease-out;
 }

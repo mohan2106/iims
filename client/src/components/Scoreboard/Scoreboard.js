@@ -111,6 +111,7 @@ const Scoreboard = (props) => {
         fetch(url).then(async (res) => {
             const scores = await res.json();
             console.log(scores);
+            scores.map((college, i) => (college.id = i));
             setCollegeScore(scores);
             let prevRank = 0;
             let prevScore = Infinity;
@@ -118,10 +119,9 @@ const Scoreboard = (props) => {
                 .sort((a, b) => {
                     return b.score - a.score;
                 })
-                .map((d, i) => {
+                .map((d) => {
                     const pass = {
                         ...d,
-                        id: i,
                         isUpdating: false,
                     };
                     if (pass.score < prevScore) {
@@ -143,7 +143,9 @@ const Scoreboard = (props) => {
                     <div className={`${classes.single_item} ${classes.dark}`}>
                         College Name
                     </div>
-                    <div className={`${classes.single_item} ${classes.dark}`}>
+                    <div
+                        className={`${classes.single_item} ${classes.dark} ${classes["light-border"]}`}
+                    >
                         Scores
                     </div>
                     <div className={`${classes.single_item} ${classes.dark}`}>
@@ -157,7 +159,7 @@ const Scoreboard = (props) => {
                                 {props.college}
                             </div>
                             {updateScoreboard ? (
-                                <div>
+                                <div className={classes.single_item}>
                                     <input
                                         type="number"
                                         value={props.score}
