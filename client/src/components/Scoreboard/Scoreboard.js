@@ -61,18 +61,18 @@ const Scoreboard = (props) => {
                 "event/" +
                 props.eventid +
                 "/scoreboard";
+            const colleges = sortedScoreboard.map((college) => college.college);
+            const scores = sortedScoreboard.map((college) =>
+                parseInt(college.score)
+            );
             fetch(url, {
                 method: "PATCH",
                 headers: {
                     "Content-type": "application/json",
                 },
                 body: JSON.stringify({
-                    scores: sortedScoreboard.map((college) => {
-                        return {
-                            college: college.college,
-                            score: parseInt(college.score),
-                        };
-                    }),
+                    participatingCollege: colleges,
+                    scores: scores,
                 }),
             })
                 .then(async (res) => {

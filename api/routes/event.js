@@ -56,17 +56,15 @@ router.get("/scoreboard", async function (req, res) {
             console.log(data.hasOwnProperty("scores"));
             for (let i = 0; i < data.participatingCollege.length; ++i) {
                 if (scores.hasOwnProperty(data.participatingCollege[i])) {
-                    scores[data.participatingCollege[i]] =
-                        scores[data.participatingCollege[i]] +
-                        data.hasOwnProperty("scores")
-                            ? data.scores[i]
-                            : 0;
+                    if (data.hasOwnProperty("scores")) {
+                        scores[data.participatingCollege[i]] += data.scores[i];
+                    }
                 } else {
-                    scores[data.participatingCollege[i]] = data.hasOwnProperty(
-                        "scores"
-                    )
-                        ? data.scores[i]
-                        : 0;
+                    if (data.hasOwnProperty("scores")) {
+                        scores[data.participatingCollege[i]] = data.scores[i];
+                    } else {
+                        scores[data.participatingCollege[i]] = 0;
+                    }
                 }
             }
             console.log(scores);
