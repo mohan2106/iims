@@ -2,18 +2,21 @@ import React, { Component } from "react";
 import classes from "./AddEvent.module.css";
 import DateTimePicker from "react-datetime-picker";
 import { Multiselect } from "multiselect-react-dropdown";
+import { Button } from "../Button/Button";
 
 class AddEvent extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            kidlogo: process.env.PUBLIC_URL + "/images/query.svg",
             name: "",
             nameValid: false,
             venue: "",
             venueValid: false,
             dateTime: new Date(),
+            dateTimeValid: true,
+            shortDesc: "",
+            shortDescValid: false,
             desc: "",
             descValid: false,
             collegeOptions: [
@@ -34,18 +37,20 @@ class AddEvent extends Component {
             submitted: false,
             errorMessage: {
                 name: "",
-                category: "",
-                query: "",
+                shortDesc: "",
                 form: "",
                 venue: "",
                 date: "",
                 desc: "",
+                dateTime: "",
             },
         };
     }
     async validateForm() {
         if (
-            this.state.nameValid === true &&
+            this.state.nameValid &&
+            this.state.shortDescValid &&
+            this.state.dateTimeValid &&
             this.state.venueValid &&
             this.state.descValid &&
             this.state.selectedValue.length > 1
@@ -79,6 +84,51 @@ class AddEvent extends Component {
         }
         await this.validateForm();
     }
+
+    async updateShortDesc(data) {
+        let errorMsg = { ...this.state.errorMessage };
+        if (data.length > 0) {
+            await this.setState({
+                shortDesc: data,
+                shortDescValid: true,
+            });
+        } else {
+            errorMsg.shortDesc = "Short Desc is required!";
+            await this.setState({
+                shortDesc: data,
+                shortDescValid: false,
+                errorMessage: errorMsg,
+            });
+        }
+        this.validateForm();
+    }
+
+    async updateDateTime(data) {
+        console.log(data);
+        let errorMsg = { ...this.state.errorMessage };
+        if (data === undefined || data === null) {
+            errorMsg.dateTime = "Date and Time are required!";
+            await this.setState({
+                dateTime: data,
+                dateTimeValid: false,
+                errorMessage: errorMsg,
+            });
+        } else if (data - new Date() < 0) {
+            errorMsg.dateTime = "Date and Time are in the past!";
+            await this.setState({
+                dateTime: data,
+                dateTimeValid: false,
+                errorMessage: errorMsg,
+            });
+        } else {
+            await this.setState({
+                dateTime: data,
+                dateTimeValid: true,
+            });
+        }
+        this.validateForm();
+    }
+
     async updateVenue(data) {
         let errorMsg = { ...this.state.errorMessage };
         if (data.length > 0) {
@@ -91,33 +141,6 @@ class AddEvent extends Component {
             await this.setState({
                 venue: data,
                 venueValid: false,
-                errorMessage: errorMsg,
-            });
-        }
-        await this.validateForm();
-    }
-
-    getCategoryOptions() {
-        let options = [];
-        this.state.categories.forEach((category) => {
-            options.push(<option value={category}>{category}</option>);
-        });
-        return options;
-    }
-
-    async updateCategory(data) {
-        let errorMsg = { ...this.state.errorMessage };
-        console.log(data);
-        if (data.length > 0 && this.state.categories.includes(data) === true) {
-            await this.setState({
-                category: data,
-                categoryValid: true,
-            });
-        } else {
-            errorMsg.category = "Category is required!";
-            await this.setState({
-                category: data,
-                categoryValid: false,
                 errorMessage: errorMsg,
             });
         }
@@ -164,6 +187,7 @@ class AddEvent extends Component {
                 },
                 body: JSON.stringify({
                     name: this.state.name,
+                    shortDesc: this.state.shortDesc,
                     venue: this.state.venue,
                     dateTime: this.state.dateTime,
                     desc: this.state.desc,
@@ -173,8 +197,12 @@ class AddEvent extends Component {
                 await this.setState({
                     name: "",
                     nameValid: false,
+                    shortDesc: "",
+                    shortDescValid: false,
                     venue: "",
                     venueValid: false,
+                    dateTime: new Date(),
+                    dateTimeValid: true,
                     desc: "",
                     descValid: false,
                     formValid: false,
@@ -182,9 +210,11 @@ class AddEvent extends Component {
                     selectedValue: [],
                     errorMessage: {
                         name: "",
+                        shortDesc: "",
                         category: "",
                         query: "",
                         form: "",
+                        dateTime: "",
                     },
                 });
             });
@@ -222,34 +252,62 @@ class AddEvent extends Component {
                     />
                     {/* name */}
                     <div className={classes.form_group}>
-                        <label className={classes.label} htmlFor="Name">
-                            Name Of Event
-                        </label>
-                        <ValidationMessage
-                            valid={this.state.nameValid}
-                            message={this.state.errorMessage.name}
-                        />
+                        <div className={classes.container_label}>
+                            <label className={classes.label} htmlFor="Name">
+                                Name Of Event
+                            </label>
+                            <ValidationMessage
+                                valid={this.state.nameValid}
+                                message={this.state.errorMessage.name}
+                            />
+                        </div>
                         <input
                             type="text"
                             id="name"
                             name="name"
                             className={classes.form_field}
                             value={this.state.name}
-                            onChange={(e) =>
-                                this.updateName(e.target.value)
-                            }
+                            onChange={(e) => this.updateName(e.target.value)}
                             placeholder="Input the Event Name"
+                        />
+                    </div>
+                    {/* Short Description */}
+                    <div className={classes.form_group}>
+                        <div className={classes.container_label}>
+                            <label
+                                className={classes.label}
+                                htmlFor="shortDesc"
+                            >
+                                Short Description
+                            </label>
+                            <ValidationMessage
+                                valid={this.state.shortDescValid}
+                                message={this.state.errorMessage.shortDesc}
+                            />
+                        </div>
+                        <input
+                            type="text"
+                            id="shortDesc"
+                            name="shortDesc"
+                            className={classes.form_field}
+                            value={this.state.shortDesc}
+                            onChange={(e) =>
+                                this.updateShortDesc(e.target.value)
+                            }
+                            placeholder="Input the Short Description of Event"
                         />
                     </div>
                     {/* venue */}
                     <div className={classes.form_group}>
-                        <label className={classes.label} htmlFor="Venue">
-                            Venue Of Event
-                        </label>
-                        <ValidationMessage
-                            valid={this.state.venueValid}
-                            message={this.state.errorMessage.venue}
-                        />
+                        <div className={classes.container_label}>
+                            <label className={classes.label} htmlFor="venue">
+                                Venue Of Event
+                            </label>
+                            <ValidationMessage
+                                valid={this.state.venueValid}
+                                message={this.state.errorMessage.venue}
+                            />
+                        </div>
                         <input
                             type="text"
                             id="venue"
@@ -262,38 +320,43 @@ class AddEvent extends Component {
                     </div>
                     {/* Date and Time */}
                     <div className={classes.form_group}>
-                        <label
-                            className={classes.label}
-                            htmlFor="Date and Time"
-                        >
-                            Date and Time
-                        </label>
-                        <ValidationMessage
-                            valid={this.state.dateTimeValid}
-                            message={this.state.errorMessage.date}
-                        />
+                        <div className={classes.container_label}>
+                            <label
+                                className={classes.label}
+                                htmlFor="Date and Time"
+                            >
+                                Date and Time
+                            </label>
+                            <ValidationMessage
+                                valid={this.state.dateTimeValid}
+                                message={this.state.errorMessage.dateTime}
+                            />
+                        </div>
                         <DateTimePicker
-                            onChange={(e) => this.setState({ dateTime: e })}
+                            onChange={(e) => this.updateDateTime(e)}
                             value={this.state.dateTime}
                         />
                     </div>
                     {/* Description */}
                     <div className={classes.form_group}>
-                        <label className={classes.label} htmlFor="Venue">
-                            Event Description
-                        </label>
-                        <ValidationMessage
-                            valid={this.state.descValid}
-                            message={this.state.errorMessage.desc}
-                        />
-                        <input
+                        <div className={classes.container_label}>
+                            <label className={classes.label} htmlFor="desc">
+                                Event Description
+                            </label>
+                            <ValidationMessage
+                                valid={this.state.descValid}
+                                message={this.state.errorMessage.desc}
+                            />
+                        </div>
+                        <textarea
                             type="text"
                             id="desc"
                             name="desc"
                             className={classes.form_field}
                             value={this.state.desc}
                             onChange={(e) => this.updateDesc(e.target.value)}
-                            placeholder="Input the Venue of Event"
+                            placeholder="Input the Description of Event"
+                            rows="5"
                         />
                     </div>
                     {/* Participating College */}
@@ -310,14 +373,14 @@ class AddEvent extends Component {
                         />
                     </div>
                     {/* Submit */}
-                    <div className="form-controls">
-                        <button
-                            className={classes.btn}
+                    <div className={classes.btn}>
+                        <Button
+                            buttonStyle="btn--rounded-dark"
                             type="submit"
                             disabled={!this.state.formValid}
                         >
                             Add Event
-                        </button>
+                        </Button>
                     </div>
                 </form>
             </div>
@@ -327,11 +390,7 @@ class AddEvent extends Component {
 
 function ValidationMessage(props) {
     if (!props.valid) {
-        return (
-            <div className={classes.error_msg}>
-                <p>{props.message}</p>
-            </div>
-        );
+        return <p className={classes.error_msg}>{props.message}</p>;
     }
     return null;
 }

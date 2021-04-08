@@ -40,7 +40,7 @@ const EventsPage = (props) => {
                 <Single
                     img={data.img}
                     name={data.name}
-                    desc={data.desc}
+                    desc={data.shortDesc}
                 ></Single>
             </Link>
         );
