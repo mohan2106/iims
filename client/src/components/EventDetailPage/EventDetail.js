@@ -166,6 +166,9 @@ const EventDetail = (props) => {
         fetch(url)
             .then(async (res) => {
                 const eventDetails = await res.json();
+                const d = eventDetails.dateTime;
+                // const d2 = new Date();
+                console.log(d.getDate());
                 eventDetails["scoreboard url"] = "/scoreboard/";
                 eventDetails["scoreboard url"] = eventDetails[
                     "scoreboard url"

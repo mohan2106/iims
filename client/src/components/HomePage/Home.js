@@ -37,9 +37,9 @@ const Home = ()=>{
             <section id='events'>
                 <Events wwd={wwd}/>
             </section>
-            <section id='colleges'>
+            {/* <section id='colleges'>
                 <Colleges />
-            </section>
+            </section> */}
             <section id='query'>
                 <Query />
             </section>
